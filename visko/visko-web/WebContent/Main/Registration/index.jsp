@@ -75,10 +75,10 @@
         }
         catch(SQLException sqle)
         {
-          warning = "<p style='color:red'>Error connecting to SQL database</p>";
+          warning = "<p style='color:red'>Error connecting to SQL database: " + sqle.getMessage() + "</p>";
         }
         catch(Exception e){
-          warning = "<p style='color:red'>Error</p>";
+          warning = "<p style='color:red'>Error: " + e.getMessage() + "</p>";
         }
     }
 %>
