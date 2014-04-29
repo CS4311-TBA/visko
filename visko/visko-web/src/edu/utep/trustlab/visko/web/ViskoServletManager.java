@@ -22,7 +22,9 @@ package edu.utep.trustlab.visko.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.sql.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -57,6 +59,62 @@ public class ViskoServletManager extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
+    
+    private static String[] explode(String value) {
+    	 	  	
+    	StringTokenizer st = new StringTokenizer(value, ",");
+    	String[] values = new String[st.countTokens()];
+    	int i = 0;
+    	while (st.hasMoreElements()){
+        	values[i] = (String) st.nextElement();
+    		i++;
+        }
+    	
+    	return values;
+    }
+    /**
+     * Log to the database
+     * receives parameters:
+     * table: String name of the database table to insert to
+     * columns: String containing names of the columns to insert to, separated by commas IE. "column1, column2, column3"
+     * values: String containing values to insert, separated by commas IE. "value1, value2, value3"
+     * creates insert statement: "INSERT INTO table (column1, column2, column3) VALUES ("value1", "value2", "value3");"
+     */
+    public String insertDB(String table, String columns, String value) {
+    	
+    	String[] insertValues = explode(value);
+    	int items = insertValues.length;
+    	String warning = "";
+    	Connection con;
+    	
+        try{
+	    	// set connection
+	        Class.forName("com.mysql.jdbc.Driver");
+	        con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+	        
+	        String queryString = "INSERT INTO "+table+" ("+columns+") VALUES (\""+insertValues[0]+"\"";
+	        if(items>1){
+	        	for (int i=1; i<items; i++){
+	        		queryString += ", \""+insertValues[i]+"\"";
+	        	}
+	        }
+	        queryString += ");";
+	        
+	        Statement call = con.createStatement();
+	        call.execute(queryString);
+	        
+        }
+        catch(SQLException sqle)
+        {
+        	warning = "<p style='color:red'>Error connecting to SQL database</p>";
+        }
+        catch(Exception e){
+        	warning = "<p style='color:red'>Error</p>";
+        }
+        return warning; 	
+    }
+    
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -74,8 +132,7 @@ public class ViskoServletManager extends HttpServlet {
 			request.getRequestDispatcher("Main/Visualize/SelectPipelines.jsp").forward(request, response);
 		}
 		else if( requestType.equalsIgnoreCase("REDIRECT") )
-		{
-			
+		{			
 			request.getSession().setAttribute("re", "REDIRECT IN SERVLET");
 			response.sendRedirect("Main/SelectPipelines.jsp");
 			//HttpServletResponse.sendRedirect("/your/new/location.jsp");
@@ -83,8 +140,15 @@ public class ViskoServletManager extends HttpServlet {
 		}
 		else if( requestType.equalsIgnoreCase("new-execute-query") )
 		{
-			TreeMap<String, ArrayList<String>> result = new ExecuteQueryServlet().getTreeMap(request, response);
+			TreeMap<String, ArrayList<String>> result = new ExecuteQueryServlet().getTreeMap(request, response);		
 			request.getSession().setAttribute("resultMap", result);
+			
+			String insertValues = request.getParameter("query");
+			insertValues += "," + request.getSession().getAttribute("email");
+			insertValues += "," + "Y";
+			
+			insertDB("query", "Qstring, Uusername, Qsuccess", insertValues);
+			
 			response.sendRedirect("Main/Visualize/SelectPipelines.jsp");
 		}
 		
