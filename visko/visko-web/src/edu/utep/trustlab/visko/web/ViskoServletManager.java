@@ -102,14 +102,13 @@ public class ViskoServletManager extends HttpServlet {
 	        
 	        Statement call = con.createStatement();
 	        call.execute(queryString);
-	        
         }
         catch(SQLException sqle)
         {
-        	warning = "<p style='color:red'>Error connecting to SQL database</p>";
+        	warning = "<p style='color:red'>Database Error: " + sqle.getMessage() + "</p>";
         }
         catch(Exception e){
-        	warning = "<p style='color:red'>Error</p>";
+        	warning = "<p style='color:red'>Error: " + e.getMessage() + "</p>";
         }
         return warning; 	
     }
