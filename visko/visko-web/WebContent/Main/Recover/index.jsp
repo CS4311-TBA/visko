@@ -21,7 +21,7 @@
          Connection con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
 
          //check if email is being used
-         String queryString = "SELECT COUNT(*) FROM User WHERE email='" + email + "';";
+         String queryString = "SELECT COUNT(*) FROM Users WHERE Uemail='" + email + "';";
 
          Statement stmt = con.createStatement();
          ResultSet rst = stmt.executeQuery(queryString);
@@ -70,7 +70,7 @@
             Connection con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA");
 
             Statement st1 = con.createStatement();
-            st1.executeUpdate("UPDATE User SET password='"+ pw +"' WHERE email='"
+            st1.executeUpdate("UPDATE Users SET Upassword='"+ pw +"' WHERE Uemail='"
             + email +"';");
             updatedDB = true;
          }

@@ -11,7 +11,7 @@
         	Class.forName("com.mysql.jdbc.Driver");
 	        Connection con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
 
-	        String queryString = "SELECT email, password, priv FROM User WHERE (email='"+request.getParameter("email")+"' && password='"+request.getParameter("password")+"');";
+	        String queryString = "SELECT Uemail, Upassword, Upriv FROM Users WHERE (Uemail='"+request.getParameter("email")+"' && Upassword='"+request.getParameter("password")+"');";
 
 	        Statement stmt = con.createStatement();
 	       	ResultSet rst = stmt.executeQuery(queryString);
@@ -22,18 +22,19 @@
 
 	        while( rst.next() )
 	        {
-	        	e = rst.getString("email");
-	        	p = rst.getString("password");
-	        	pr = rst.getString("priv");
+	        	e = rst.getString("Uemail");
+	        	p = rst.getString("Upassword");
+	        	pr = rst.getString("Upriv");
 	        }
 
 
 	        if( !e.equalsIgnoreCase("") && !p.equalsIgnoreCase("") && !pr.equalsIgnoreCase("") )
 	        {
+	        	System.out.println(":"+e+":"+p+":"+pr+":");//testing
 	        	session.setAttribute("email", e);
-				session.setAttribute("pass", p);
+				session.setAttribute("password", p);
 				session.setAttribute("priv", pr);
-				response.sendRedirect("/visko-web/Main/Home/");
+				response.sendRedirect("/visko-web/Main/Home/");				
 	        }
 	        else
 	        {

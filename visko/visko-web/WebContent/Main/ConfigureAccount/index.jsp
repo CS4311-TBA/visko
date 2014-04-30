@@ -29,8 +29,8 @@
 
       Statement st1 = con.createStatement();
 
-      st1.executeUpdate("UPDATE User SET email='" + nEmail 
-      + "', password='"+ nPass +"' WHERE email='"
+      st1.executeUpdate("UPDATE Users SET Uemail='" + nEmail 
+      + "', Upassword='"+ nPass +"' WHERE Uemail='"
       + session.getAttribute("email") +"';");
 
       session.setAttribute("email", nEmail);
@@ -46,8 +46,8 @@
 
       Statement st1 = con.createStatement();
 
-      st1.executeUpdate("UPDATE User SET email='" + nEmail 
-      + "' WHERE email='" + session.getAttribute("email") +"';");
+      st1.executeUpdate("UPDATE Users SET Uemail='" + nEmail 
+      + "' WHERE Uemail='" + session.getAttribute("email") +"';");
 
       session.setAttribute("email", nEmail);
       warning = "<p style='color:green'>Email updated successfully.</p>";
@@ -60,7 +60,7 @@
 
       Statement st1 = con.createStatement();
 
-      st1.executeUpdate("UPDATE User SET password='"+ nPass +"' WHERE email='"
+      st1.executeUpdate("UPDATE Users SET Upassword='"+ nPass +"' WHERE Uemail='"
       + session.getAttribute("email") +"';");
 
       session.setAttribute("pass", nPass);

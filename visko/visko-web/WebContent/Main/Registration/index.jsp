@@ -39,7 +39,7 @@
           con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
 
           //check if email is being used
-          String queryString = "SELECT COUNT(*) FROM User WHERE email='" + email + "';";
+          String queryString = "SELECT COUNT(*) FROM Users WHERE Uemail='" + email + "';";
 
           Statement stmt = con.createStatement();
           ResultSet rst = stmt.executeQuery(queryString);
@@ -53,7 +53,7 @@
           else
           {
 
-            queryString = "INSERT INTO User(email,password,first,last,org,priv) VALUES (?, ?, ?, ?, ?,?);";
+            queryString = "INSERT INTO Users(Uemail,Upassword,Ufirstname,Ulastname,Uorganization,Upriv) VALUES (?, ?, ?, ?, ?, ?);";
 
             pstatement = con.prepareStatement(queryString);
             pstatement.setString(1, email);
