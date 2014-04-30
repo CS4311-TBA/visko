@@ -32,7 +32,7 @@
 	        {
 	        	System.out.println(":"+e+":"+p+":"+pr+":");//testing
 	        	session.setAttribute("email", e);
-				session.setAttribute("password", p);
+				session.setAttribute("pass", p);
 				session.setAttribute("priv", pr);
 				response.sendRedirect("/visko-web/Main/Home/");				
 	        }
