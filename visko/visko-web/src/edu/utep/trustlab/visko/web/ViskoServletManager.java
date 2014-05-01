@@ -79,7 +79,6 @@ public class ViskoServletManager extends HttpServlet {
            con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
 
            String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
-           System.out.println("qs:"+queryString+":");//testing
         		   
            Statement stmt = con.createStatement();
            ResultSet rst = stmt.executeQuery(queryString);
@@ -183,13 +182,16 @@ public class ViskoServletManager extends HttpServlet {
 			TreeMap<String, ArrayList<String>> result = new ExecuteQueryServlet().getTreeMap(request, response);		
 			request.getSession().setAttribute("resultMap", result);
 			
-			String insertValues = queryDB("Users", "Usid", " Uemail = '"+request.getSession().getAttribute("email")+"';");			
+			//log typed Query to Database
+			String insertValues = queryDB("Users", "Usid", " Uemail = '"+request.getSession().getAttribute("email")+"'");			
 			insertValues += "," + request.getParameter("query");
 			insertValues += "," + request.getSession().getAttribute("email");
-			insertValues += "," + "1";
-			System.out.println("iv:"+insertValues+":");//testing
-			insertDB("Query", "Usid, Qstring, Qusername, Qstatus", insertValues);
+			if(result == null || result.isEmpty())
+				insertValues += "," + "0";
+			else
+				insertValues += "," + "1";
 			
+			insertDB("Query", "Usid, Qstring, Qusername, Qstatus", insertValues);	
 			response.sendRedirect("Main/Visualize/SelectPipelines.jsp");
 		}
 		
@@ -197,6 +199,17 @@ public class ViskoServletManager extends HttpServlet {
 		{	
 			TreeMap<String, ArrayList<String>> result = new ExecuteQueryServlet().getTreeMapBuild(request, response);
 			request.getSession().setAttribute("resultMap", result);
+			
+			//log built Query to Database
+			String insertValues = queryDB("Users", "Usid", " Uemail = '"+request.getSession().getAttribute("email")+"'");			
+			insertValues += "," + request.getSession().getAttribute("builtQuery");
+			insertValues += "," + request.getSession().getAttribute("email");
+			if(result == null || result.isEmpty())
+				insertValues += "," + "0";
+			else
+				insertValues += "," + "1";
+			
+			insertDB("Query", "Usid, Qstring, Qusername, Qstatus", insertValues);
 			response.sendRedirect("Main/Visualize/SelectPipelines.jsp");
 		}		
 		else if( requestType.equalsIgnoreCase("set-query-parameters") )

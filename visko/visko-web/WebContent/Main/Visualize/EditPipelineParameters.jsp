@@ -27,7 +27,7 @@
 		String EditParametersForm = (String) request.getSession().getAttribute("EditParametersForm");
 		out.println("<br>" + 
 					EditParametersForm + 
-					"<br><a class=\"btn btn-warning\" href=\"/visko-web/Main/Visualize/SelectPipelines.jsp\" style=\"width: 156px\">Back</a>");
+					"<br><br><a class=\"btn btn-warning\" href=\"/visko-web/Main/Visualize/SelectPipelines.jsp\" style=\"width: 156px\">Back</a>");
 	%>
 
 <!-- PAGE INFORMAITON GOES ABOVE -->

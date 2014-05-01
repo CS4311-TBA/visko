@@ -30,7 +30,6 @@
 
 	        if( !e.equalsIgnoreCase("") && !p.equalsIgnoreCase("") && !pr.equalsIgnoreCase("") )
 	        {
-	        	System.out.println(":"+e+":"+p+":"+pr+":");//testing
 	        	session.setAttribute("email", e);
 				session.setAttribute("pass", p);
 				session.setAttribute("priv", pr);

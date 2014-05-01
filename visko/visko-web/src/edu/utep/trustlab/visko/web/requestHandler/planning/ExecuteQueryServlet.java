@@ -110,9 +110,9 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 		}
 	}
 	
-	public TreeMap<String, ArrayList<String>> getTreeMapBuild( HttpServletRequest request, HttpServletResponse response) {
-		
-		String stringQuery = writeQuery(request);		
+	public TreeMap<String, ArrayList<String>> getTreeMapBuild( HttpServletRequest request, HttpServletResponse response) {		
+		String stringQuery = writeQuery(request);
+		request.getSession().setAttribute("builtQuery", stringQuery);
 		String reuse = request.getParameter("reuse");
 		
 		if(reuse != null){
