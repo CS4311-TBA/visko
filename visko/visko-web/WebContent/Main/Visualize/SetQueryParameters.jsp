@@ -32,10 +32,62 @@
           <h3>Set Query Parameters</h3>
           <ul class="list-inline">
             <li><img src="/visko-web/Main/assets/img/<%= abstractionType %>.png" class="img-responsive" alt="Responsive image" width="200" height="200"></li>
-            <li><p> <%= abstractionType %> <% String description = "TEST OUT"; %> <%if (abstractionType.contains("1D_Timeline")){
-            										description = "TEST!!!";
-            										}%> - <% out.write(description) %>  Description text corresponding to selected visual abstraction from previous page</p></li>
-            }
+            <li><p> <%= abstractionType %> <% String description = ""; %> 
+            <%if (abstractionType.contains("1D_")){
+            	description = "a linear representation of important events in the order in which they occurred";
+            	}
+            else if (abstractionType.contains("Contour")){
+            	description = " contour";
+            	}
+            else if (abstractionType.contains("Raster")){
+            	description = " a data layer consisting of a gridded array of cells";
+            	}
+            else if (abstractionType.contains("Species")){
+            	description = " represents the geographical region where individuals of a species can be found";
+            	}
+            else if (abstractionType.contains("SpherizedRaster")){
+            	description = " a data layer consisting of a gridded array of cells in a 3D model view";
+            	}
+            else if (abstractionType.contains("TimeSeries")){
+            	description = " a group of polygon objects as they change over time";
+            	}
+            else if (abstractionType.contains("VisKo_DataTransformations_ForceGraph")){
+            	description = " Description not available";
+            	}
+            else if (abstractionType.contains("Visko_Instances_BarChart")){
+            	description = " Description not available";
+            	}
+            else if (abstractionType.contains("VisKo_OperatorPaths_ForceGraph")){
+            	description = " Description not available";
+            	}
+            else if (abstractionType.contains("3D_BarChart")){
+            	description = " displays data visually either horizontally or vertically in a 3D model";
+            	}
+            else if (abstractionType.contains("3D_IsoSurfacesRendering")){
+            	description = " a three-dimensional analog of an isoline. It is a surface that represents points of a constant value";
+            	}
+            else if (abstractionType.contains("3D_MeshPlot")){
+            	description = " produces wireframe surfaces that color only the lines connecting the defining points";
+            	}
+            else if (abstractionType.contains("3D_MolecularStructure")){
+            	description = " the three dimensional shape or configuration of a molecule is an important characteristic";
+            	}
+            else if (abstractionType.contains("3D_MolecularStructure_Cartoon")){
+            	description = " he three dimensional shape or configuration of a molecule is an important characteristic in a cartoon graphic";
+            	}
+            else if (abstractionType.contains("3D_PointPlot")){
+            	description = " 3-dimensional Cartesian coordinate system.";
+            	}
+            else if (abstractionType.contains("3D_RasterCube")){
+            	description = " a 3D cube representation of a data layer consisting of a gridded array of cells";
+            	}
+            else if (abstractionType.contains("3D_SurfacePlot")){
+            	description = "  a 3D Plot is a graphic display that shows all collated data";
+            	}
+            else if (abstractionType.contains("3D_VolumeRendering")){
+            	description = "  a set of techniques used to display a 3D discretely sampled data set.";
+            	}%> - <% out.write(description); %> </p></li>
+            
           </ul>
 
           
