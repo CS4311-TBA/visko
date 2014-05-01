@@ -32,7 +32,10 @@
           <h3>Set Query Parameters</h3>
           <ul class="list-inline">
             <li><img src="/visko-web/Main/assets/img/<%= abstractionType %>.png" class="img-responsive" alt="Responsive image" width="200" height="200"></li>
-            <li><p> <%= abstractionType %> -  Description text corresponding to selected visual abstraction from previous page</p></li>
+            <li><p> <%= abstractionType %> <% String description = "TEST OUT"; %> <%if (abstractionType.contains("1D_Timeline")){
+            										description = "TEST!!!";
+            										}%> - <% out.write(description) %>  Description text corresponding to selected visual abstraction from previous page</p></li>
+            }
           </ul>
 
           
