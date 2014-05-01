@@ -53,7 +53,7 @@
           else
           {
 
-            queryString = "INSERT INTO Users(Uemail,Upassword,Ufirstname,Ulastname,Uorganization,Upriv) VALUES (?, ?, ?, ?, ?, ?);";
+            queryString = "INSERT INTO Users(Utime, Uemail,Upassword,Ufirstname,Ulastname,Uorganization,Upriv) VALUES (NOW(), ?, ?, ?, ?, ?, ?);";
 
             pstatement = con.prepareStatement(queryString);
             pstatement.setString(1, email);
