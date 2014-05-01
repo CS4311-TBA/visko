@@ -9,22 +9,22 @@ public class User {
 	private String password;
 	private String organization;
 	private int priv;
+	private String firstname;
+	private String lastname;
 	
 	
 	public User()
 	{
-		this.email = null;
-		this.password = null;
-		this.organization = null;
-		this.priv = 1;
 	}
 	
-	public User( String e, String p, String o, int pr )
+	public User( String e, String p, String o, int pr , String f, String l )
 	{
 		this.email = e;
 		this.password = p;
 		this.organization = o;
 		this.priv = pr;
+		this.firstname = f;
+		this.lastname = l;
 	}
 	
 	public User( ResultSet rs ) throws SQLException
@@ -34,6 +34,8 @@ public class User {
 		this.password = rs.getString("Upassword");
 		this.organization = rs.getString("Uorganization");
 		this.priv = rs.getInt("Upriv");
+		this.firstname = rs.getString("Ufirstname");
+		this.lastname = rs.getString("Ulastname");
 	}
 	
 	public String getEmail()
@@ -56,6 +58,15 @@ public class User {
 		return this.priv;
 	}
 	
+	public String getFirstName()
+	{
+		return this.firstname;
+	}
+	
+	public String getLastName()
+	{
+		return this.lastname;
+	}
 	public void setEmail(String e)
 	{
 		this.email = e;
@@ -74,5 +85,15 @@ public class User {
 	public void setPriv( int p )
 	{
 		this.priv = p;
+	}
+	
+	public void setFirstName( String f )
+	{
+		this.firstname = f;
+	}
+	
+	public void setLastName( String l )
+	{
+		this.lastname = l;
 	}
 }

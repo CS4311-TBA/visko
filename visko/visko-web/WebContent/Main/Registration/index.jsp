@@ -5,25 +5,13 @@
 
 <%@ page import ="java.sql.*" %>
 <%@ page import="java.io.*" %>
+<%@ page import="edu.utep.trustlab.visko.web.*" %>
 
 <%
     String warning = "";
+
     String email = request.getParameter("email");
     String password= request.getParameter("pass");
-    String org = request.getParameter("org");
-    String first = request.getParameter("firstName");
-    String last = request.getParameter("lastName");
-    int priv;
-    try
-    {
-      priv = Integer.parseInt(request.getParameter("priv"));
-    }
-    catch(Exception e)
-    {
-      priv = 1;
-    }
-    
-
 
     Connection con;
     PreparedStatement pstatement = null;
@@ -32,7 +20,6 @@
     if( email != null && password != null )
     {
         try{
-
 
           // set connection
           Class.forName("com.mysql.jdbc.Driver");
@@ -53,6 +40,11 @@
           else
           {
 
+            String org = request.getParameter("org");
+            String first = request.getParameter("firstName");
+            String last = request.getParameter("lastName");
+            int priv = 0;
+
             queryString = "INSERT INTO Users(Utime, Uemail,Upassword,Ufirstname,Ulastname,Uorganization,Upriv) VALUES (NOW(), ?, ?, ?, ?, ?, ?);";
 
             pstatement = con.prepareStatement(queryString);
@@ -65,9 +57,9 @@
 
             pstatement.executeUpdate();
 
-            session.setAttribute("email", email);
-            session.setAttribute("pass", password);
-            session.setAttribute("priv", priv);
+            User curUser = new User(email, password, org, priv, first, last);
+
+            session.setAttribute("user", curUser);
 
             response.sendRedirect("/visko-web/Main/Home/");
 

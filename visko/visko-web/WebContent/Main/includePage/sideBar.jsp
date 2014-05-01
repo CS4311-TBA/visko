@@ -1,17 +1,18 @@
+<%@ page import="edu.utep.trustlab.visko.web.*" %>
 <%
 
   String url = request.getRequestURI();
   String curPage = url.substring(url.indexOf("Main/")+5, url.length());
-  String priv = "";
-  if( session.getAttribute("priv") != null )
+  User curUser;
+  if( session.getAttribute("user") != null )
   {
-    priv = ""+session.getAttribute("priv");
+	  curUser = (User) session.getAttribute("user");
   }
   else
   {
-    priv = "1";
+	  curUser = new User();
+	  curUser.setPriv(0);
   }
-
 
   //print top of sidebar
   out.println(
@@ -21,7 +22,7 @@
           "<ul class=\"nav nav-sidebar\">"
   );
 
-  if( priv.equalsIgnoreCase("2") )
+  if( curUser.getPriv() == 1 )
   { 
     if( curPage.contains("SearchPipelines") )
     {
