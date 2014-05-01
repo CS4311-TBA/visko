@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ page import ="java.sql.*" %>
+<%@ page import="edu.utep.trustlab.visko.web.*" %>
 
 <%
 	String warning = "";
@@ -11,11 +12,25 @@
         	Class.forName("com.mysql.jdbc.Driver");
 	        Connection con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
 
-	        String queryString = "SELECT Uemail, Upassword, Upriv FROM Users WHERE (Uemail='"+request.getParameter("email")+"' && Upassword='"+request.getParameter("password")+"');";
+	        String queryString = "SELECT * FROM Users WHERE (Uemail='"+request.getParameter("email")+"' && Upassword='"+request.getParameter("password")+"');";
 
 	        Statement stmt = con.createStatement();
 	       	ResultSet rst = stmt.executeQuery(queryString);
-	        
+
+	       	User curUser = new User( rst );
+	       	
+	       	if( ( !curUser.getEmail().equalsIgnoreCase("") || curUser.getEmail() != null ) &&
+	       		( !curUser.getPass().equalsIgnoreCase("") || curUser.getPass() != null ) )
+	       	{
+	       		session.setAttribute("user", curUser);
+	       		response.sendRedirect("/visko-web/Main/Home/");	
+	       	}
+	       	else
+	       	{
+	       		warning = "<p style='color:red'>Invalid Login.</p>";
+	       	}
+	       			
+	       	/*
 	        String e = "";
 	       	String p = "";
 	       	String pr = "";
@@ -39,6 +54,7 @@
 	        {
 	        	warning = "<p style='color:red'>Invalid Login.</p>";
 	        }
+	        */
        	}
        	catch(SQLException s){
        		warning = "<p style='color:red'>Error connecting to SQL Database: "+ s.getMessage() + "</p>";

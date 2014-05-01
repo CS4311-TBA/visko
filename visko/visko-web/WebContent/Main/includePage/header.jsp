@@ -8,15 +8,24 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="/visko-web/Main/assets/ico/favicon.ico">
   </head>
+  
+ <%@ page import="edu.utep.trustlab.visko.web.*" %>
 
 	<!-- Bootstrap core CSS -->
     <link href="/visko-web/Main/assets/css/bootstrap.min.css" rel="stylesheet">
 
 	<%
 	//check session variables are set
+	/*
 	if( session.getAttribute("email") != null &&
 		session.getAttribute("pass") != null )
 	{
+		*/
+		
+		
+	if( session.getAttribute("user") != null )
+	{
+		User curUser = (User)session.getAttribute("user");	
 		out.println(   
 					"<div class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">" +
 				      "<div class=\"container-fluid\"> " +
@@ -33,7 +42,7 @@
 				          "<form action='/visko-web/Main/logOut.jsp' class=\"navbar-form navbar-right\" role=\"form\"> "+
 					    "<button type=\"submit\" class=\"btn btn-success\">Logout</button>"+
 					  "</form>" +
-					  "<p class=\"navbar-text navbar-right\">Welcome <a href=\"/visko-web/Main/ConfigureAccount/\" class=\"navbar-link\">" + session.getAttribute("email") +"</a></p>" +
+					  "<p class=\"navbar-text navbar-right\">Welcome <a href=\"/visko-web/Main/ConfigureAccount/\" class=\"navbar-link\">" + curUser.getEmail() +"</a></p>" +
 				        "</div>"+
 				      "</div>"+
 				    "</div>"
@@ -41,7 +50,7 @@
 			);
 	}
 	else{
-		response.sendRedirect( "/visko-web/Main/index.jsp" );
+		response.sendRedirect( "/visko-web/Main/" );
 	}
 							
 	%>
