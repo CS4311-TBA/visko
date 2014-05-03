@@ -35,8 +35,8 @@
             int priv = 0;
             int status = 1;
             
-            String values = "NOW()," + email + "," + password + "," + first + "," + last + "," + org + "," + priv + "," + status;
-            boolean pass = aDB.insertDB("Users", "Utime, Uemail,Upassword,Ufirstname,Ulastname,Uorganization,Upriv,Ustatus", values);
+            String values = email + "," + password + "," + first + "," + last + "," + org + "," + priv + "," + status + ",NOW()";
+            boolean pass = aDB.insertDB("Users", "Uemail,Upassword,Ufirstname,Ulastname,Uorganization,Upriv,Ustatus,Utime", values);
 
  			if( pass )
  			{

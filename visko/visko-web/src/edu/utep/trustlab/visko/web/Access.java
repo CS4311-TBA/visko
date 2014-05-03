@@ -94,7 +94,6 @@ public class Access {
         		}
         		else
         		{
-        		
         			queryString += ", \""+insertValues[i]+"\"";
         		}
         	}
