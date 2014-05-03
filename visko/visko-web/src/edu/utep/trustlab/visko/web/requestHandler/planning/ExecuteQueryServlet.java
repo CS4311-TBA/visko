@@ -98,7 +98,7 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 		//
 		User user = (User) request.getSession().getAttribute("user");
 		String insertValues = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
-		insertValues += "," + request.getSession().getAttribute("email");
+		insertValues += "," + user.getEmail();
 		insertValues += "," + query.getTypeURI();
 		insertValues += "," + query.getArtifactURL();
 		insertValues += "," + query.getViewerSetURI();
@@ -155,7 +155,7 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 		//
 		User user = (User) request.getSession().getAttribute("user");
 		String insertValues = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
-		insertValues += "," + request.getSession().getAttribute("email");
+		insertValues += "," + user.getEmail();
 		insertValues += "," + query.getTypeURI();
 		insertValues += "," + query.getArtifactURL();
 		insertValues += "," + query.getViewerSetURI();
