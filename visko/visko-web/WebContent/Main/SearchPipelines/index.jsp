@@ -144,9 +144,19 @@
                     <option value="test"><%=o.getTypes()%></option>
                   </select>
 
+				  <label class="control-label" for="error">Error</label>
+	              <select class="form-control" name="targetType">
+	              	<option value="errorsAndSuccess">Errors And Successes</option>
+	              	<option value="serviceExecution">Service Execution Error</option>
+	              	<option value="timeoutError">Timeout Error</option>
+	              	<option value="inputDataError">Input Data Error</option>
+	              	<option value="anyError">Any Error</option>
+	              </select>
+	              
+	              
                   <div class="text-center">
                     <br>
-                    <button id="submitButton" name="submitButton" type="submit" class="btn btn-success">Submit</button>
+                    <button id="searchButton" name="searchButton" type="submit" class="btn btn-success">Search</button>
                    </div>
                 </div>
               </div>
@@ -163,16 +173,23 @@
 
         <div class="row">
 
-          <div class="text-center">
-
-            <!-- RESULTS GO HERE -->
-            RESULTS GO HERE
-
-
-            
-          </div>
-        
-
+          <div>
+			<br>
+			<label for="results">Results</label>
+			<table style="border:1px solid black;border-collapse:collapse;" >
+			<tr>
+			
+			  <tr>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">ID</th>
+				  	
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Submitted By User</th> 
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Data Executed</th>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Error</th>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Result</th>
+			 </tr>
+			 
+			</table>
+           </div>
         </div>
       </div>      
     </div>

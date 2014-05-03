@@ -169,15 +169,23 @@
         </div>
 
         <div class="row">
-
-          <div class="text-center">
-
-            <!-- RESULTS GO HERE -->
-            RESULTS GO HERE
-
-
-            
-          </div>
+		<div>
+			<br>
+			<label for="results">Results</label>
+			<table style="border:1px solid black;border-collapse:collapse;" >
+			<tr>
+			
+			  <tr>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Name</th>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Registered By User</th> 
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Date</th>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Status</th>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Any Timeout Errors</th>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Any Execution Errors</th>
+			 </tr>
+			 
+			</table>
+           </div>
         
 
         </div>

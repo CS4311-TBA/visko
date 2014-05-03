@@ -151,15 +151,23 @@
         </div>
 
         <div class="row">
-
-          <div class="text-center">
-
-            <!-- RESULTS GO HERE -->
-            RESULTS GO HERE
-
-
-            
-          </div>
+		<div>
+			<br>
+			<label for="results">Results</label>
+			<table style="border:1px solid black;border-collapse:collapse;" >
+			<tr>
+			
+			  <tr>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Date Joined</th>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Account Status</th> 
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">First Name</th>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Last Name</th>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Affiliation</th>
+				  
+			 </tr>
+			 
+			</table>
+           </div>
         
 
         </div>
