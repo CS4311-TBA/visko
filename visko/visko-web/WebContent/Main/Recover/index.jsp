@@ -141,7 +141,7 @@
     <%@ include file="../includePage/footer.jsp" %>
 
     <style type="text/css">
-      .secondary {
+      .secondary { 
          font-size: 11px;
          color: #666;
          line-height: 18px;
