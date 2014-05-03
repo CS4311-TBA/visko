@@ -13,6 +13,47 @@ public class Access {
 	{
 	}
 	
+	 /**
+     * retrieve string column from the database
+     * receives parameters:
+     * table: String name of the database table to select from
+     * column: String name of the column to select from
+     * creates select statement: "SELECT "column" FROM "table";"
+     * returns: String of result from select statement, or null if unsuccessful
+     */
+	public String selectDB(String table, String column){
+	    
+    	String result = null;
+    	Connection con;
+    	
+    	try{
+    		
+    		Class.forName("com.mysql.jdbc.Driver");
+    		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+
+    		String queryString = "SELECT "+column+" FROM "+table+";";
+
+    		Statement stmt = con.createStatement();
+    		ResultSet rst = stmt.executeQuery(queryString);
+    		
+    		rst.next();
+    		if(!rst.wasNull()){
+    			result = rst.getString(column);
+			}
+        }
+        catch(SQLException s){
+        	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
+        }
+    	catch(ClassNotFoundException cnfe)
+        {
+        	System.out.println("Class Not Found Error: " + cnfe.getMessage());
+        }
+        catch(Exception e){
+        	System.out.println("Error: " + e.getMessage());
+        }
+        return result; 
+	        
+	}
 	
 	 /**
      * retrieve string column from the database
@@ -22,41 +63,40 @@ public class Access {
      * constraint: String containing value for select constraints
      * creates select statement: "SELECT "column" FROM "table" WHERE "constraint";"
      * returns: String of result from select statement, or null if unsuccessful
-	 * @throws ClassNotFoundException 
-	 * @throws SQLException 
      */
 	 public String selectDB(String table, String column, String constraint){
 		    
-	    	String result = null;
-	    	Connection con;
-	    	
-	    	try{
-	    		
-	    		Class.forName("com.mysql.jdbc.Driver");
-	    		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+    	String result = null;
+    	Connection con;
+    	
+    	try{
+    		
+    		Class.forName("com.mysql.jdbc.Driver");
+    		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
 
-	    		String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
+    		String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
 
-	    		Statement stmt = con.createStatement();
-	    		ResultSet rst = stmt.executeQuery(queryString);
-	    		
-	    		rst.next();
-	    		if(!rst.wasNull()){
-	    			result = rst.getString(column);
-    			}
-	        }
-	        catch(SQLException s){
-	        	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
-	        }
-	    	catch(ClassNotFoundException cnfe)
-	        {
-	        	System.out.println("Class Not Found Error: " + cnfe.getMessage());
-	        }
-	        catch(Exception e){
-	        	System.out.println("Error: " + e.getMessage());
-	        }
-	        return result; 
-	    }
+    		Statement stmt = con.createStatement();
+    		ResultSet rst = stmt.executeQuery(queryString);
+    		
+    		rst.next();
+    		if(!rst.wasNull()){
+    			result = rst.getString(column);
+			}
+        }
+        catch(SQLException s){
+        	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
+        }
+    	catch(ClassNotFoundException cnfe)
+        {
+        	System.out.println("Class Not Found Error: " + cnfe.getMessage());
+        }
+        catch(Exception e){
+        	System.out.println("Error: " + e.getMessage());
+        }
+        return result; 
+	        
+	}
     
     
     public ResultSet selectResultSet( String table, String column, String constraint){
@@ -96,8 +136,6 @@ public class Access {
      * columns: String containing names of the columns to insert to, separated by commas IE. "column1, column2, column3"
      * values: String containing values to insert, separated by commas IE. "value1, value2, value3"
      * creates insert statement: "INSERT INTO table (column1, column2, column3) VALUES ("value1", "value2", "value3");"
-     * @throws ClassNotFoundException 
-     * @throws SQLException 
      */
     public boolean insertDB(String table, String columns, String value){
     	
@@ -125,6 +163,8 @@ public class Access {
 	        	}
 	        }
 	        queryString += ");";
+	        
+	        System.out.println(":"+queryString+":");//testing
 	        
 	        Statement call = con.createStatement();
 	        call.execute(queryString);
