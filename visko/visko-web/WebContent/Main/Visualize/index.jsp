@@ -14,7 +14,62 @@
     
     <script type="text/javascript">
     
-   
+    $( document ).ready(function() {
+    	
+    	
+    	
+		$("#queryText").on('keyup paste', function() {
+			
+			 var element = this;
+			setTimeout(function () {
+				var queryString = $(element).val();
+				 $.post("/visko-web/ViskoServletManager",{query:queryString},
+				          function(result) {
+				                //alert("Data Loaded: " + result);
+				           if( result == "true" )
+		            		{
+		            			$("#warning").html( "<p style='color:green'>Query is valid.</p>");
+		            			$("#submitButton").attr("disabled",false);
+		            		}
+		            		else
+		            		{
+		            			$("#warning").html( "<p style='color:red'>Invalid query.</p>" );
+		            			$("#submitButton").attr("disabled",true);
+		            		}
+				         });
+				/*
+				$.ajax({
+					type: "POST", 
+		            url : '/visko-web/ViskoServletManager',
+		            dataType : 'text',
+		            data : "query="+queryString,
+		            cache : false, // guarantees jsp is always called
+		            success: function(result)
+		            {
+		            	alert("RESULT: " + result);
+		            	if( result == "true" )
+		            	{
+		            		$("#warning").html( "<p style='color:green'>Query is valid.</p>");	
+		            	}
+		            	else
+		            	{
+		            		$("#warning").html( "<p style='color:red'>Invalid query.</p>" );
+		            	}
+		            }
+		       });
+				*/
+				
+			}, 0);
+			
+			
+			
+			
+		});
+		
+		
+		
+    });
+    
     </script>
   </head>
 
@@ -44,11 +99,12 @@
                     <textarea style="width: 989px; height: 200px;" id="queryText" name="query"></textarea></td>
                 </tr>
                 <tr>
-                  <td></td>
+                  <td align="right"><div id="warning"></div></td>
+                  
                   <td align="right">
                     <table>
                       <tr>
-                        <td><input type="submit" id="submitButton" style="width: 156px"></td>
+                        <td><input type="submit" id="submitButton" disabled="true" style="width: 156px"></td>
                         <td><button type="button" onclick="reset()">Reset</button></td>
                       </tr>
                     </table>
