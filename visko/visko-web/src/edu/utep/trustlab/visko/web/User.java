@@ -19,7 +19,7 @@ public class User {
 	
 	public User( String e, String p, String o, int pr , String f, String l )
 	{
-		this.email = e;
+		this.email = e.toLowerCase();
 		this.password = p;
 		this.organization = o;
 		this.priv = pr;
@@ -30,7 +30,7 @@ public class User {
 	public User( ResultSet rs ) throws SQLException
 	{
 		rs.next();
-		this.email = rs.getString("Uemail");
+		this.email = rs.getString("Uemail").toLowerCase();
 		this.password = rs.getString("Upassword");
 		this.organization = rs.getString("Uorganization");
 		this.priv = rs.getInt("Upriv");
@@ -40,7 +40,7 @@ public class User {
 	
 	public String getEmail()
 	{
-		return this.email;
+		return this.email.toLowerCase();
 	}
 	
 	public String getPass()
@@ -69,7 +69,7 @@ public class User {
 	}
 	public void setEmail(String e)
 	{
-		this.email = e;
+		this.email = e.toLowerCase();
 	}
 
 	public void setPass( String p )
