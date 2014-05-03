@@ -29,31 +29,67 @@
 			<p>   - Most Popular Output Format -format-</p>
           <br>
           <h4>Frequency of pipeline Errors</h4>
-          <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-          <script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
-        ]);
-
-        var options = {
-          title: 'Company Performance',
-          hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
-        };
-
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-          <h2>This is just a template</h2>
-            <p>All the information for the page will go inside this "div". SideBar and Header are already included, any other CSS should be placed into the sideBar.css file at the bottom. </p>
-        </div>
+          
+          <br>
+          <p>--GRAPH GOES HERE--</p>
+          <br>
+          
+          <!-- table for the results -->
+          <h4>Most Popular Pipeline</h4>
+          <table style="border:1px solid black;border-collapse:collapse;" >
+			<tr>
+			
+			  <tr>
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">ID</th>	
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Abstraction</th> 
+				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Output Format</th>
+				  
+			 </tr>
+			 
+			</table>
+			
+			<br>
+			<br>
+			
+			<!-- accordians for the results -->
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 data-toggle="collapse" data-parent="#accordion" href="#1D" class="panel-title">
+                  Service 1
+                </h4>
+              </div>
+              
+              <p>test</p>
+              <p>test</p>
+            </div>
+            </div>
+            
+             <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 data-toggle="collapse" data-parent="#accordion" href="#1D" class="panel-title">
+                  Service 2
+                </h4>
+                
+              </div>
+              <p>test</p>
+              <p>test</p>
+            </div>
+            </div>
+            
+             <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 data-toggle="collapse" data-parent="#accordion" href="#1D" class="panel-title">
+                  Service 3
+                </h4>
+              </div>
+              
+              <p>test</p>
+              <p>test</p>
+            </div>
+            </div>
       </div>      
     </div>
 

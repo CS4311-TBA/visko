@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Visko</title>
@@ -21,16 +21,27 @@
         <div class="row">
 
         <!-- PAGE INFORMAITON GOES HERE -->
-
-
-
-
-          <h1><%= request.getRequestURI() %></h1>
-            <p>This is where all the page information goes</p>
+        
+            <h4> Total Number of Services Requested: -- </h4>
+			<p>   - Most Supported Abstraction:  -Abstraction- </p>
+			<p>   - Most Supported Input Format: -FORMAT-</p>
+			<p>   - Most Supported Input Data Type: -FORMAT-</p>
+ 			<p>   - Most Supported Output Format: -FORMAT-</p>
+			<p>   - Most Supported Output Data Type: -FORMAT-</p>
+          
           <br>
-          <h2>This is just a template</h2>
-            <p>All the information for the page will go inside this "div". SideBar and Header are already included, any other CSS should be placed into the sideBar.css file at the bottom. </p>
-        </div>
+          <br>
+          <br>
+          <p>--GRAPH GOES HERE--</p>
+          <br>
+          
+          <!-- second graph area -->
+          <h4>Frequency of Service Errors</h4>
+          <h4>- Service with most associated errors</h4>
+          
+          <br>
+          <p>TABLE GOES HERE</p>
+            </div>
       </div>      
     </div>
 

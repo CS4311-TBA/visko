@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Visko</title>
@@ -21,16 +21,26 @@
         <div class="row">
 
         <!-- PAGE INFORMAITON GOES HERE -->
-
-
-
-
-          <h1><%= request.getRequestURI() %></h1>
-            <p>This is where all the page information goes</p>
+        
+            <h4> Total Number of Queries Executed: -- </h4>
+			<p>   - Most Popular Abstraction Requested:  -Abstraction- </p>
+			<p>   - Most Popular ViewerSet Targeted -FORMAT-</p>
+ 			<p>   - Most Popular Input Format:-FORMAT- </p>
+			<p>   - Most Popular Output Format -format-</p>
           <br>
-          <h2>This is just a template</h2>
-            <p>All the information for the page will go inside this "div". SideBar and Header are already included, any other CSS should be placed into the sideBar.css file at the bottom. </p>
-        </div>
+          <h4>Frequency of pipeline Errors</h4>
+          
+          <br>
+          <p>--GRAPH GOES HERE--</p>
+          <br>
+          
+          <h4>Most Popular Query</h4>
+          
+    	      <textarea rows="4" cols="50">
+				--QUERY TEXT--
+			  </textarea>
+			
+			
       </div>      
     </div>
 
