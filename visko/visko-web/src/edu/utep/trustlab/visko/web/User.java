@@ -11,13 +11,14 @@ public class User {
 	private int priv;
 	private String firstname;
 	private String lastname;
+	private int status;
 	
 	
 	public User()
 	{
 	}
 	
-	public User( String e, String p, String o, int pr , String f, String l )
+	public User( String e, String p, String o, int pr , String f, String l , int s)
 	{
 		this.email = e.toLowerCase();
 		this.password = p;
@@ -25,6 +26,7 @@ public class User {
 		this.priv = pr;
 		this.firstname = f;
 		this.lastname = l;
+		this.status = s;
 	}
 	
 	public User( ResultSet rs ) throws SQLException
@@ -36,6 +38,7 @@ public class User {
 		this.priv = rs.getInt("Upriv");
 		this.firstname = rs.getString("Ufirstname");
 		this.lastname = rs.getString("Ulastname");
+		this.status = rs.getInt("Ustatus");
 	}
 	
 	public String getEmail()
@@ -67,10 +70,17 @@ public class User {
 	{
 		return this.lastname;
 	}
+	
+	public int getStatus()
+	{
+		return this.status;
+	}
+	
 	public void setEmail(String e)
 	{
 		this.email = e.toLowerCase();
 	}
+	
 
 	public void setPass( String p )
 	{
@@ -95,5 +105,10 @@ public class User {
 	public void setLastName( String l )
 	{
 		this.lastname = l;
+	}
+	
+	public void setStatus( int s )
+	{
+		this.status = s;
 	}
 }

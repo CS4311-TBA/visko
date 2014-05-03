@@ -13,23 +13,12 @@
     String email = request.getParameter("email");
     String password= request.getParameter("pass");
 
-    Connection con;
-    PreparedStatement pstatement = null;
-
-
+	Access aDB = new Access();
     if( email != null && password != null )
     {
         try{
 
-          // set connection
-          Class.forName("com.mysql.jdbc.Driver");
-          con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
-
-          //check if email is being used
-          String queryString = "SELECT COUNT(*) FROM Users WHERE Uemail='" + email + "';";
-
-          Statement stmt = con.createStatement();
-          ResultSet rst = stmt.executeQuery(queryString);
+          ResultSet rst = aDB.selectResultSet("Users", "COUNT(*)", "Uemail='"+email+"';");
 
           rst.next();
 
@@ -44,25 +33,22 @@
             String first = request.getParameter("firstName");
             String last = request.getParameter("lastName");
             int priv = 0;
+            int status = 1;
+            
+            String values = "NOW()," + email + "," + password + "," + first + "," + last + "," + org + "," + priv + "," + status;
+            boolean pass = aDB.insertDB("Users", "Utime, Uemail,Upassword,Ufirstname,Ulastname,Uorganization,Upriv,Ustatus", values);
 
-            queryString = "INSERT INTO Users(Utime, Uemail,Upassword,Ufirstname,Ulastname,Uorganization,Upriv) VALUES (NOW(), ?, ?, ?, ?, ?, ?);";
+ 			if( pass )
+ 			{
+ 				User curUser = new User(email, password, org, priv, first, last, status);
 
-            pstatement = con.prepareStatement(queryString);
-            pstatement.setString(1, email);
-            pstatement.setString(2, password);
-            pstatement.setString(3, first);
-            pstatement.setString(4, last);
-            pstatement.setString(5, org);
-            pstatement.setInt(6, priv);
-
-            pstatement.executeUpdate();
-
-            User curUser = new User(email, password, org, priv, first, last);
-
-            session.setAttribute("user", curUser);
-
-            response.sendRedirect("/visko-web/Main/Home/");
-
+ 	            session.setAttribute("user", curUser);
+ 	            response.sendRedirect("/visko-web/Main/Home/");	
+ 			}
+ 			else
+ 			{
+ 				warning = "<p style='color:red'>Error creating user profile</p>";
+ 			}
           }
         }
         catch(SQLException sqle)

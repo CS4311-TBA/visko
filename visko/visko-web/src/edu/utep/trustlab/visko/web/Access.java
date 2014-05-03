@@ -25,7 +25,7 @@ public class Access {
 	 * @throws ClassNotFoundException 
 	 * @throws SQLException 
      */
-    public static String selectDB(String table, String column, String constraint) throws ClassNotFoundException, SQLException {
+    public String selectDB(String table, String column, String constraint) throws ClassNotFoundException, SQLException {
     
     	String result = null;
     	Connection con;
@@ -43,6 +43,23 @@ public class Access {
 			result = rst.getString(column);
 		}
 		return result; 
+    }
+    
+    
+    public ResultSet selectResultSet( String table, String column, String constraint) throws ClassNotFoundException, SQLException
+    {
+    	String result = null;
+    	Connection con;
+    	
+		Class.forName("com.mysql.jdbc.Driver");
+		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+		
+		String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
+		
+		Statement stmt = con.createStatement();
+		ResultSet rst = stmt.executeQuery(queryString);
+		
+		return rst;
     }
     
     
