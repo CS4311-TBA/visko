@@ -50,7 +50,7 @@
               <!-- left Sie -->
               <div class="col-md-6">
                 <!-- Change Pass -->
-                <h3> Visualization Search Criteria </h3>
+                <h3> Query Search Criteria </h3>
 
                 
 			<% 
@@ -76,6 +76,7 @@
             }//end for loop
           %>
                     <div class="row">
+                                       
                       <label class="control-label" for="abs">Abstraction</label>
                       <select class="form-control" name="abstraction">
                         

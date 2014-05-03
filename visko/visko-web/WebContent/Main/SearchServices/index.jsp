@@ -50,7 +50,7 @@
               <!-- left Sie -->
               <div class="col-md-6">
                 <!-- Change Pass -->
-                <h3> Visualization Search Criteria </h3>
+                <h3> Service Search Criteria </h3>
 
                 
 			<% 
@@ -76,6 +76,13 @@
             }//end for loop
           %>
                     <div class="row">
+                    
+                    
+                      <label class="control-label" for="service">Service</label>
+                      <select class="form-control" name="service">
+                        <option value="test">-SERVICE-</option>
+                      </select>
+                    
                       <label class="control-label" for="abs">Abstraction</label>
                       <select class="form-control" name="abstraction">
                         
@@ -84,17 +91,7 @@
                         						
                         						}%>
                       </select>
-
-                      <label class="control-label" for="inURL">Input URL</label>
-                      <select class="form-control" name="inputURL">
-                        <option value="test">test</option>
-                      </select>
-
-                      <label class="control-label" for="viewerSet">Viewer Set</label>
-                      <select class="form-control" name="viewerSet">
-                        <option value="test"><%=o.getViewerSets()%></option>
-                      </select>
-
+                     
                       <label class="control-label" for="sourceFormat">Source Format</label>
                       <select class="form-control" name="sourceFormat">
                         <option value="test"><%=o.getFormats()%></option>
@@ -104,6 +101,16 @@
                       <select class="form-control" name="sourceType">
                         <option value="test"><%=o.getTypes()%></option>
                       </select>
+                      
+	                  <label class="control-label" for="targetFormat">Target Format</label>
+	                  <select class="form-control" name="targetFormat">
+	                    <option value="test"><%=o.getFormats()%></option>
+	                  </select>
+	
+	                  <label class="control-label" for="targetType">Target Type</label>
+	                  <select class="form-control" name="targetType">
+	                    <option value="test"><%=o.getTypes()%></option>
+	                  </select>
 
                     </div>
               
@@ -132,16 +139,16 @@
                     </div>
                   </div>
 
-                  <br><br>
-
-                  <label class="control-label" for="targetFormat">Target Format</label>
-                  <select class="form-control" name="targetFormat">
-                    <option value="test"><%=o.getFormats()%></option>
+                  <br><br><br><br>                
+                  
+                  <label class="control-label" for="errorSelect">Error</label>
+                  <select class="form-control" name="errorSelect">
+                    <option value="test">-ERROR-</option>
                   </select>
 
-                  <label class="control-label" for="targetType">Target Type</label>
-                  <select class="form-control" name="targetType">
-                    <option value="test"><%=o.getTypes()%></option>
+                  <label class="control-label" for="status">Status</label>
+                  <select class="form-control" name="statusLabel">
+                    <option value="test">-STATUS-</option>
                   </select>
 
                   <div class="text-center">

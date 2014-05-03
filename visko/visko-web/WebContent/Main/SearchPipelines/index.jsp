@@ -50,7 +50,7 @@
               <!-- left Sie -->
               <div class="col-md-6">
                 <!-- Change Pass -->
-                <h3> Visualization Search Criteria </h3>
+                <h3> Pipeline Search Criteria </h3>
 
                 
 			<% 
