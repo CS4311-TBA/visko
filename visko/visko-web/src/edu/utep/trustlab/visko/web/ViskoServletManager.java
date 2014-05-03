@@ -42,6 +42,7 @@ import edu.utep.trustlab.visko.web.requestHandler.planning.ShowPipelineServlet;
 import edu.utep.trustlab.visko.web.requestHandler.queryExecutionService.ExecuteQueryServiceServlet;
 import edu.utep.trustlab.visko.web.requestHandler.queryExecutionService.IFeelLuckyServlet;
 import edu.utep.trustlab.visko.web.requestHandler.sparql.ExecuteSPARQLQueryServlet;
+import edu.utep.trustlab.visko.planning.Query;
 
 /**
  * Servlet implementation class ViskoServletManager
@@ -128,6 +129,13 @@ public class ViskoServletManager extends HttpServlet {
 			//request.getSession().setAttribute("EditParametersForm", EditParametersForm);
 			//response.sendRedirect("Main/Visualize/EditPipelineParameters.jsp");
 		}
+		else if( requestType.equalsIgnoreCase("check-query-isvalid") )
+		{
+			String qString = request.getParameter("query");
+			Query query = new Query(qString);
+			boolean passed = query.isValidQuery();
+			response.getWriter().write(""+passed);
+		}
 		else if(requestType.equalsIgnoreCase("execute-pipeline"))
 			new ExecutePipelineServlet().setRedirection(request, response, this);
 		else if(requestType.equalsIgnoreCase("execute-query-service"))
@@ -165,5 +173,10 @@ public class ViskoServletManager extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+
+		String qString = request.getParameter("query");
+		Query query = new Query(qString);
+		boolean passed = query.isValidQuery();
+		response.getWriter().write(""+passed);
 	}
 }
