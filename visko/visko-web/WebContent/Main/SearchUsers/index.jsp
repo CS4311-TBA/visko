@@ -5,7 +5,8 @@
 
     <%@ include file="../includePage/header.jsp" %>
     <%@ page import="edu.utep.trustlab.visko.web.html.*" %>
-    <%@ page import="java.util.*" %>     
+    <%@ page import="java.util.*" %>
+    <%@ page import ="java.sql.*" %>     
 
         <!-- Bootstrap core CSS -->
     <link href="/visko-web/Main/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -53,51 +54,32 @@
                 <!-- Change Pass -->
                 <h3> User Search Criteria </h3>
 
-                
-			<% 
-            SelectionOptionsHTML o = new SelectionOptionsHTML(); 
-            String [] options = (o.getViskoViews()).split(" "); 
-            List<String> abstractions = new ArrayList<String>();  
-            for(int i = 0; i < options.length; i++)
-            {
-              abstractions.add(options[i]);
-            }
-            String abstrString = "";
-            for(int i = 0; i < abstractions.size(); i++){
-            	if(abstractions.get(i).contains("1D_")){
-           			abstrString = abstractions.get(i).substring(abstractions.get(i).indexOf("1D_"),abstractions.get(i).length());
-           			abstractions.set(i, abstrString);
-            	}else if(abstractions.get(i).contains("2D_")){
-                    abstrString = abstractions.get(i).substring(abstractions.get(i).indexOf("2D_"),abstractions.get(i).length());
-                    abstractions.set(i, abstrString);
-            	}else if(abstractions.get(i).contains("3D_")){
-	              	abstrString = abstractions.get(i).substring(abstractions.get(i).indexOf("3D_"),abstractions.get(i).length());
-              		abstractions.set(i, abstrString);
-            	}
-            }//end for loop
-          %>
                     <div class="row">
 
                       <label class="control-label" for="userEmail">User Email</label>
-                      <select class="form-control" name="inputURL">
-                        <option value="test">-EMAIL-</option>
-                      </select>
+                      <input class="form-control" type="text" name="email">
 
                       <label class="control-label" for="viewerSet">First Name</label>
-                      <select class="form-control" name="viewerSet">
-                        <option value="test">-FIRST-</option>
-                      </select>
+                      <input class="form-control" type="text" name="first">
 
                       <label class="control-label" for="sourceFormat">Last Name</label>
-                      <select class="form-control" name="sourceFormat">
-                        <option value="test">-LAST NAME-</option>
-                      </select>
+                      <input class="form-control" type="text" name="last">
 
                       <label class="control-label" for="sourceType">Affiliation</label>
-                      <select class="form-control" name="sourceType">
-                        <option value="test">UTEP</option>
-                      </select>
-
+               		 <select class="form-control" name="affiliation">
+                      <%
+                      	Access aDB = new Access();
+                    	ResultSet rs = aDB.selectResultSet("Users", "DISTINCT Uorganization", "Uorganization IS NOT NULL");
+                    	
+                    	while( rs.next() )
+                    	{
+                    		String org = rs.getString("Uorganization");
+                    		out.println("<option value='"+org+"'>"+org+"</option>");
+                    	}
+                    	
+                      %>
+                      
+                  		</select>
                     </div>
               
               </div>
@@ -128,8 +110,10 @@
                   <br><br>
 
                   <label class="control-label" for="targetFormat">Account Status</label>
-                  <select class="form-control" name="targetFormat">
-                    <option value="test">-STATUS-</option>
+                  <select class="form-control" name="status">
+                    <option value="*">Any Status</option>
+                    <option value="1">Active</option>
+                    <option value="0">Suspended</option>
                   </select>
 
 
