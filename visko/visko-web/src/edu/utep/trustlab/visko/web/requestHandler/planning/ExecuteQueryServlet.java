@@ -26,6 +26,8 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.utep.trustlab.visko.web.Access;
+import edu.utep.trustlab.visko.web.User;
 import edu.utep.trustlab.visko.web.context.ViskoWebSession;
 import edu.utep.trustlab.visko.web.html.*;
 import edu.utep.trustlab.visko.web.requestHandler.RequestHandlerHTML;
@@ -80,6 +82,7 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 	public TreeMap<String, ArrayList<String>> getTreeMap( HttpServletRequest request, HttpServletResponse response) {
 		String stringQuery = request.getParameter("query");
 		String reuse = request.getParameter("reuse");
+		Access access = new Access();
 		
 		if(reuse != null){
 			ViskoWebSession session = (ViskoWebSession)request.getSession().getAttribute(ViskoWebSession.SESSION_ID);
@@ -91,6 +94,19 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			query = new Query(stringQuery);
 			engine = new QueryEngine(query);
 		}
+		
+		//
+		User user = (User) request.getSession().getAttribute("user");
+		String insertValues = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
+		insertValues += "," + request.getSession().getAttribute("email");
+		insertValues += "," + query.getTypeURI();
+		insertValues += "," + query.getArtifactURL();
+		insertValues += "," + query.getViewerSetURI();
+		insertValues += "," + query.getTargetFormatURI();
+		insertValues += "," + query.getTargetTypeURI();
+		insertValues += ",NOW()";
+		insertValues += "," +stringQuery;	
+		//
 
 		if (query.isValidQuery()) {
 			// if valid query add the query engine to the session
@@ -101,19 +117,29 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			//HashMap<String, ArrayList<String>> resultMap = new HashMap<String, ArrayList<String>>();
 			//resultMap = ResultsTableHTML.getHashMap(engine);
 			//resultMap = ResultsTableHTML.getHTML(engine, true);
+			
+			//
+			insertValues += ",1";
+			request.getSession().setAttribute("typedQueryInsert", insertValues);
+			//
 		
 			return ResultsTableHTML.getTreeMap(engine);
 		}
 		else {
 		
+			//
+			insertValues += ",0";
+			request.getSession().setAttribute("typedQueryInsert", insertValues);
+			//
+			
 			return null;
 		}
 	}
 	
 	public TreeMap<String, ArrayList<String>> getTreeMapBuild( HttpServletRequest request, HttpServletResponse response) {		
 		String stringQuery = writeQuery(request);
-		request.getSession().setAttribute("builtQuery", stringQuery);
 		String reuse = request.getParameter("reuse");
+		Access access = new Access();
 		
 		if(reuse != null){
 			ViskoWebSession session = (ViskoWebSession)request.getSession().getAttribute(ViskoWebSession.SESSION_ID);
@@ -125,6 +151,19 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			query = new Query(stringQuery);
 			engine = new QueryEngine(query);
 		}
+		
+		//
+		User user = (User) request.getSession().getAttribute("user");
+		String insertValues = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
+		insertValues += "," + request.getSession().getAttribute("email");
+		insertValues += "," + query.getTypeURI();
+		insertValues += "," + query.getArtifactURL();
+		insertValues += "," + query.getViewerSetURI();
+		insertValues += "," + query.getTargetFormatURI();
+		insertValues += "," + query.getTargetTypeURI();
+		insertValues += ",NOW()";
+		insertValues += "," +stringQuery;	
+		//
 
 		if (query.isValidQuery()) {
 			// if valid query add the query engine to the session
@@ -132,10 +171,20 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			session.setQueryEngine(engine);
 			request.getSession().setAttribute(ViskoWebSession.SESSION_ID, session);
 		
+			//
+			insertValues += ",1";
+			request.getSession().setAttribute("buildQueryInsert", insertValues);
+			//
+			
 			return ResultsTableHTML.getTreeMap(engine);
 		}
 		else {
 		
+			//
+			insertValues += ",0";
+			request.getSession().setAttribute("buildQueryInsert", insertValues);
+			//
+			
 			return null;
 		}
 	}

@@ -25,41 +25,67 @@ public class Access {
 	 * @throws ClassNotFoundException 
 	 * @throws SQLException 
      */
-    public String selectDB(String table, String column, String constraint) throws ClassNotFoundException, SQLException {
+	 public String selectDB(String table, String column, String constraint){
+		    
+	    	String result = null;
+	    	Connection con;
+	    	
+	    	try{
+	    		
+	    		Class.forName("com.mysql.jdbc.Driver");
+	    		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+
+	    		String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
+
+	    		Statement stmt = con.createStatement();
+	    		ResultSet rst = stmt.executeQuery(queryString);
+	    		
+	    		rst.next();
+	    		if(!rst.wasNull()){
+	    			result = rst.getString(column);
+    			}
+	        }
+	        catch(SQLException s){
+	        	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
+	        }
+	    	catch(ClassNotFoundException cnfe)
+	        {
+	        	System.out.println("Class Not Found Error: " + cnfe.getMessage());
+	        }
+	        catch(Exception e){
+	        	System.out.println("Error: " + e.getMessage());
+	        }
+	        return result; 
+	    }
     
-    	String result = null;
+    
+    public ResultSet selectResultSet( String table, String column, String constraint){
+    	
+    	ResultSet result = null;
     	Connection con;
     	
-		Class.forName("com.mysql.jdbc.Driver");
-		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
-		
-		String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
-				   
-		Statement stmt = con.createStatement();
-		ResultSet rst = stmt.executeQuery(queryString);
-		
-		rst.next();
-		if(!rst.wasNull()){
-			result = rst.getString(column);
-		}
-		return result; 
-    }
-    
-    
-    public ResultSet selectResultSet( String table, String column, String constraint) throws ClassNotFoundException, SQLException
-    {
-    	String result = null;
-    	Connection con;
+    	try{
+    		
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+			
+			String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
+			
+			Statement stmt = con.createStatement();
+			result = stmt.executeQuery(queryString);
+    	}
+    	catch(SQLException s){
+        	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
+        }
+    	catch(ClassNotFoundException cnfe)
+        {
+        	System.out.println("Class Not Found Error: " + cnfe.getMessage());
+        }
+        catch(Exception e){
+        	System.out.println("Error: " + e.getMessage());
+        }
     	
-		Class.forName("com.mysql.jdbc.Driver");
-		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
-		
-		String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
-		
-		Statement stmt = con.createStatement();
-		ResultSet rst = stmt.executeQuery(queryString);
-		
-		return rst;
+		return result;
     }
     
     
@@ -73,36 +99,47 @@ public class Access {
      * @throws ClassNotFoundException 
      * @throws SQLException 
      */
-    public boolean insertDB(String table, String columns, String value) throws ClassNotFoundException, SQLException {
+    public boolean insertDB(String table, String columns, String value){
     	
     	String[] insertValues = explode(value);
     	int items = insertValues.length;
     	boolean warning = false;
     	Connection con;
     	
-     
-    	// set connection
-        Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
-        
-        String queryString = "INSERT INTO "+table+" ("+columns+") VALUES (\""+insertValues[0]+"\"";
-        if(items>1){
-        	for (int i=1; i<items; i++){
-        		if( insertValues[i].equalsIgnoreCase("NOW()") )
-        		{
-        			queryString += ", " + insertValues[i];
-        		}
-        		else
-        		{
-        			queryString += ", \""+insertValues[i]+"\"";
-        		}
-        	}
+    	try{
+	    	// set connection
+	        Class.forName("com.mysql.jdbc.Driver");
+	        con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+	        
+	        String queryString = "INSERT INTO "+table+" ("+columns+") VALUES (\""+insertValues[0]+"\"";
+	        if(items>1){
+	        	for (int i=1; i<items; i++){
+	        		if( insertValues[i].equalsIgnoreCase("NOW()") )
+	        		{
+	        			queryString += ", " + insertValues[i];
+	        		}
+	        		else
+	        		{
+	        			queryString += ", \""+insertValues[i]+"\"";
+	        		}
+	        	}
+	        }
+	        queryString += ");";
+	        
+	        Statement call = con.createStatement();
+	        call.execute(queryString);
+    	}
+        catch(SQLException sqle)
+        {
+        	System.out.println("Database Error: " + sqle.getMessage());
         }
-        queryString += ");";
-        
-        Statement call = con.createStatement();
-        call.execute(queryString);
-        warning = true;
+        catch(ClassNotFoundException cnfe)
+        {
+        	System.out.println("Class Not Found Error: " + cnfe.getMessage());
+        }
+        catch(Exception e){
+        	System.out.println("Error: " + e.getMessage());
+        }
         return warning;
         
     }
