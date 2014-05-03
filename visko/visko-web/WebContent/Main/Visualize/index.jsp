@@ -114,10 +114,35 @@
                       out.write("</form>");
                       out.write("</td></td>");
                       out.write("<td>"+oneD.get(i)+"</td>");
-                      out.write("<td>"+"Description"+"</td>");
+                      out.write("<td>"+"a linear representation of important events in the order in which they occurred"+"</td>");
                       out.write("</tr>");
                     }
                   %> 
+                  <%
+                  List<String> twoDesc = new ArrayList<String>(twoD.size()); 
+                  List<String> threeDesc = new ArrayList<String>(threeD.size());
+                  
+                  twoDesc.add("A map showing elevations and surface configuration by means of contour lines.");
+                  twoDesc.add("Assign forces among the set of edges and the set of nodes of a graph drawing."); 
+                  twoDesc.add("A map that contains detailed points depending on a specified data set");
+                  twoDesc.add("A data layer consisting of a gridded array of cells");
+                  twoDesc.add("Represents the geographical region where individuals of a species can be found");
+                  twoDesc.add("A data layer consisting of a gridded array of cells in a 3D model view");
+                  twoDesc.add("A group of polygon objects as they change over time");
+                  twoDesc.add("Description not available");                  
+                  twoDesc.add("Description not available");
+                  twoDesc.add("Description not available");
+                  
+                  threeDesc.add("Displays data visually either horizontally or vertically in a 3D model");
+                  threeDesc.add("A three-dimensional analog of an isoline. It is a surface that represents points of a constant value");                  
+                  threeDesc.add("Produces wireframe surfaces that color only the lines connecting the defining points");            
+                  threeDesc.add("The three dimensional shape or configuration of a molecule is an important characteristic");
+                  threeDesc.add("The three dimensional shape or configuration of a molecule is an important characteristic in a cartoon graphic");
+                  threeDesc.add("3-dimensional Cartesian coordinate system.");
+                  threeDesc.add("A 3D cube representation of a data layer consisting of a gridded array of cells");
+                  threeDesc.add("A 3D Plot is a graphic display that shows all collated data");
+                  threeDesc.add("A set of techniques used to display a 3D discretely sampled data set.");
+                   %>
                   </table>
                 </div>
               </div>
@@ -130,7 +155,7 @@
               </div>
               <div id="2D" class="panel-collapse collapse">
                 <div class="panel-body">
-                  <table>
+                  <table class = "table">
                   <%
                     for(int i = 0; i < twoD.size(); i++){
                       out.write("<tr><td>");
@@ -141,7 +166,7 @@
                       out.write("</form>");
                       out.write("</td>");
                       out.write("<td>"+twoD.get(i)+"</td>");
-                      out.write("<td>"+"Description"+"</td>");
+                      out.write("<td>"+twoDesc.get(i)+"</td>");
                       out.write("</tr>");
                     }
                   %> 
@@ -157,7 +182,7 @@
               </div>
               <div id="3D" class="panel-collapse collapse">
                 <div class="panel-body">
-                  <table>
+                  <table class = "table">
                   <%
                     for(int i = 0; i < threeD.size(); i++){
                       out.write("<tr>");
@@ -169,7 +194,7 @@
                       out.write("</form>");
                       out.write("</td>");
                       out.write("<td>"+threeD.get(i)+"</td>");
-                      out.write("<td>"+"Description"+"</td>");
+                      out.write("<td>"+threeDesc.get(i)+"</td>");
                       out.write("</tr>");
                     }
                   %> 
