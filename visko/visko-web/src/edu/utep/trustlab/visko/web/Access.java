@@ -88,7 +88,15 @@ public class Access {
         String queryString = "INSERT INTO "+table+" ("+columns+") VALUES (\""+insertValues[0]+"\"";
         if(items>1){
         	for (int i=1; i<items; i++){
-        		queryString += ", \""+insertValues[i]+"\"";
+        		if( insertValues[i].equalsIgnoreCase("NOW()") )
+        		{
+        			queryString += ", " + insertValues[i];
+        		}
+        		else
+        		{
+        		
+        			queryString += ", \""+insertValues[i]+"\"";
+        		}
         	}
         }
         queryString += ");";

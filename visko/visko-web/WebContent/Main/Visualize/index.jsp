@@ -4,12 +4,18 @@
     <title>Visko</title>
 
     <%@ include file="../includePage/header.jsp" %>
-
+	<%@ include file="../includePage/footer.jsp" %>
+      
         <!-- Bootstrap core CSS -->
     <link href="/visko-web/Main/assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/visko-web/Main/assets/css/sideBar.css" rel="stylesheet">
+    
+    <script type="text/javascript">
+    
+   
+    </script>
   </head>
 
   <body>
@@ -208,7 +214,5 @@
         </div>      
       </div>
     </div>
-
-    <%@ include file="../includePage/footer.jsp" %>
   </body>
 </html>
