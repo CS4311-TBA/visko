@@ -7,16 +7,13 @@
 
 	if( request.getParameter("email") != null && request.getParameter("password") != null )
 	{
+		
+		Access aDB = new Access();
+		
         try
         {
-        	Class.forName("com.mysql.jdbc.Driver");
-	        Connection con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
 
-	        String queryString = "SELECT * FROM Users WHERE (Uemail='"+request.getParameter("email")+"' && Upassword='"+request.getParameter("password")+"');";
-
-	        Statement stmt = con.createStatement();
-	       	ResultSet rst = stmt.executeQuery(queryString);
-
+        	ResultSet rst = aDB.selectResultSet("Users", "*", "Uemail='"+request.getParameter("email").toLowerCase()+"' && Upassword='"+request.getParameter("password")+"'");
 	       	User curUser = new User( rst );
 	       	
 	       	if( ( !curUser.getEmail().equalsIgnoreCase("") || curUser.getEmail() != null ) &&
@@ -30,31 +27,6 @@
 	       		warning = "<p style='color:red'>Invalid Login.</p>";
 	       	}
 	       			
-	       	/*
-	        String e = "";
-	       	String p = "";
-	       	String pr = "";
-
-	        while( rst.next() )
-	        {
-	        	e = rst.getString("Uemail");
-	        	p = rst.getString("Upassword");
-	        	pr = rst.getString("Upriv");
-	        }
-
-
-	        if( !e.equalsIgnoreCase("") && !p.equalsIgnoreCase("") && !pr.equalsIgnoreCase("") )
-	        {
-	        	session.setAttribute("email", e);
-				session.setAttribute("pass", p);
-				session.setAttribute("priv", pr);
-				response.sendRedirect("/visko-web/Main/Home/");				
-	        }
-	        else
-	        {
-	        	warning = "<p style='color:red'>Invalid Login.</p>";
-	        }
-	        */
        	}
        	catch(SQLException s){
        		warning = "<p style='color:red'>Error connecting to SQL Database: "+ s.getMessage() + "</p>";
