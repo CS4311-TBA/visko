@@ -103,7 +103,7 @@ public class Access {
     	
     	String[] insertValues = explode(value);
     	int items = insertValues.length;
-    	boolean warning = false;
+    	boolean success = false;
     	Connection con;
     	
     	try{
@@ -128,6 +128,7 @@ public class Access {
 	        
 	        Statement call = con.createStatement();
 	        call.execute(queryString);
+	        success = true;
     	}
         catch(SQLException sqle)
         {
@@ -140,8 +141,8 @@ public class Access {
         catch(Exception e){
         	System.out.println("Error: " + e.getMessage());
         }
-        return warning;
-        
+    	
+        return success;     
     }
     
   //receives a comma delimited string and returns a string array of the input string split by the commas
