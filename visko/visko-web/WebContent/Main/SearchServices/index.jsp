@@ -2,14 +2,34 @@
 <html lang="en">
   <head>
     <title>Visko</title>
-
     <%@ include file="../includePage/header.jsp" %>
+    <%@ page import="edu.utep.trustlab.visko.web.html.*" %>
+    <%@ page import="java.util.*" %>     
 
         <!-- Bootstrap core CSS -->
     <link href="/visko-web/Main/assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/visko-web/Main/assets/css/sideBar.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+
+
+    <style type="text/css">
+
+    </style>
+
+    <script>
+      $(function() {
+        $( "#startDate" ).datepicker();
+        $("#endDate").datepicker();
+      });
+    </script>
+
+
   </head>
 
   <body>
@@ -20,16 +40,139 @@
       <div class="container">
         <div class="row">
 
-        <!-- PAGE INFORMAITON GOES HERE -->
+          <form id="changeForm" method="post" class="form-horizontal">
+          <fieldset>
+          
+
+            <div class="row">
+            
+
+              <!-- left Sie -->
+              <div class="col-md-6">
+                <!-- Change Pass -->
+                <h3> Visualization Search Criteria </h3>
+
+                
+			<% 
+            SelectionOptionsHTML o = new SelectionOptionsHTML(); 
+            String [] options = (o.getViskoViews()).split(" "); 
+            List<String> abstractions = new ArrayList<String>();  
+            for(int i = 0; i < options.length; i++)
+            {
+              abstractions.add(options[i]);
+            }
+            String abstrString = "";
+            for(int i = 0; i < abstractions.size(); i++){
+            	if(abstractions.get(i).contains("1D_")){
+           			abstrString = abstractions.get(i).substring(abstractions.get(i).indexOf("1D_"),abstractions.get(i).length());
+           			abstractions.set(i, abstrString);
+            	}else if(abstractions.get(i).contains("2D_")){
+                    abstrString = abstractions.get(i).substring(abstractions.get(i).indexOf("2D_"),abstractions.get(i).length());
+                    abstractions.set(i, abstrString);
+            	}else if(abstractions.get(i).contains("3D_")){
+	              	abstrString = abstractions.get(i).substring(abstractions.get(i).indexOf("3D_"),abstractions.get(i).length());
+              		abstractions.set(i, abstrString);
+            	}
+            }//end for loop
+          %>
+                    <div class="row">
+                      <label class="control-label" for="abs">Abstraction</label>
+                      <select class="form-control" name="abstraction">
+                        
+                        <%for (int i = 0; i < abstractions.size(); i++){
+                        						out.write( "<option>" + abstractions.get(i) + "</option>");
+                        						
+                        						}%>
+                      </select>
+
+                      <label class="control-label" for="inURL">Input URL</label>
+                      <select class="form-control" name="inputURL">
+                        <option value="test">test</option>
+                      </select>
+
+                      <label class="control-label" for="viewerSet">Viewer Set</label>
+                      <select class="form-control" name="viewerSet">
+                        <option value="test"><%=o.getViewerSets()%></option>
+                      </select>
+
+                      <label class="control-label" for="sourceFormat">Source Format</label>
+                      <select class="form-control" name="sourceFormat">
+                        <option value="test"><%=o.getFormats()%></option>
+                      </select>
+
+                      <label class="control-label" for="sourceType">Source Type</label>
+                      <select class="form-control" name="sourceType">
+                        <option value="test"><%=o.getTypes()%></option>
+                      </select>
+
+                    </div>
+              
+              </div>
+
+              <!-- right side -->
+              <div class="col-md-6">
+                <div class="row">
+                  
+                  <br><br><br>
+                  
+                  <div class="text-center">
+                    <label class="control-label" for="date">Date Range</label>
+                  </div>
 
 
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="date-picker-1" class="control-label">Start Date</label>
+                      <input id="startDate" type="text" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="date-picker-2" class="control-label">End Date</label>
+                      <input id="endDate" type="text" class="form-control" />
+                    </div>
+                  </div>
+
+                  <br><br>
+
+                  <label class="control-label" for="targetFormat">Target Format</label>
+                  <select class="form-control" name="targetFormat">
+                    <option value="test"><%=o.getFormats()%></option>
+                  </select>
+
+                  <label class="control-label" for="targetType">Target Type</label>
+                  <select class="form-control" name="targetType">
+                    <option value="test"><%=o.getTypes()%></option>
+                  </select>
+
+                  <div class="text-center">
+                    <br>
+                    <button id="submitButton" name="submitButton" type="submit" class="btn btn-success">Submit</button>
+                   </div>
+                </div>
+              </div>
+
+            </div>
+
+            <hr>
+
+          </fieldset>
+          </form>
 
 
-          <h1><%= request.getRequestURI() %></h1>
-            <p>This is where all the page information goes</p>
-          <br>
-          <h2>This is just a template</h2>
-            <p>All the information for the page will go inside this "div". SideBar and Header are already included, any other CSS should be placed into the sideBar.css file at the bottom. </p>
+        </div>
+
+        <div class="row">
+
+          <div class="text-center">
+
+            <!-- RESULTS GO HERE -->
+            RESULTS GO HERE
+
+
+            
+          </div>
+        
+
         </div>
       </div>      
     </div>

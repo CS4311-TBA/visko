@@ -3,7 +3,6 @@
 
 <%@ page import ="java.sql.*" %>
 <%@ page import="java.io.*" %>
-<%@ page import="edu.utep.trustlab.visko.web.*" %>
 
 
 <%
@@ -12,9 +11,9 @@
   boolean cEmail = Boolean.parseBoolean( request.getParameter("emailChange") );
   boolean cPass = Boolean.parseBoolean( request.getParameter("passwordChange") );
 
-  User curUser = (User)session.getAttribute("user");
   String nEmail = request.getParameter("newEmail");
   String nPass = request.getParameter("newPass");
+  
 
   try
   {
@@ -30,13 +29,12 @@
 
       Statement st1 = con.createStatement();
 
-      st1.executeUpdate("UPDATE Users SET Uemail='" + nEmail
+      st1.executeUpdate("UPDATE Users SET Uemail='" + nEmail 
       + "', Upassword='"+ nPass +"' WHERE Uemail='"
-      + curUser.getEmail() +"';");
+      + session.getAttribute("email") +"';");
 
-      curUser.setEmail(nEmail);
-      curUser.setPass(nPass);
-      session.setAttribute("user", curUser);
+      session.setAttribute("email", nEmail);
+      session.setAttribute("pass", nPass);
       warning = "<p style='color:green'>Email and Password updated successfully.</p>";
 
     }
@@ -49,10 +47,9 @@
       Statement st1 = con.createStatement();
 
       st1.executeUpdate("UPDATE Users SET Uemail='" + nEmail 
-      + "' WHERE Uemail='" + curUser.getEmail() +"';");
+      + "' WHERE Uemail='" + session.getAttribute("email") +"';");
 
-      curUser.setEmail(nEmail);
-      session.setAttribute("user", curUser);
+      session.setAttribute("email", nEmail);
       warning = "<p style='color:green'>Email updated successfully.</p>";
 
 
@@ -64,10 +61,9 @@
       Statement st1 = con.createStatement();
 
       st1.executeUpdate("UPDATE Users SET Upassword='"+ nPass +"' WHERE Uemail='"
-      + curUser.getEmail() +"';");
+      + session.getAttribute("email") +"';");
 
-      curUser.setPass(nPass);
-      session.setAttribute("user", curUser);
+      session.setAttribute("pass", nPass);
       warning = "<p style='color:green'>Password updated successfully.</p>";
     }
     else
@@ -176,7 +172,7 @@
           setTimeout(function(){ 
             var passInput = $('#curPass').val();
             //var check = $('#passSession').val();
-            var check = '<%= curUser.getPass() %>';
+            var check = '<%=session.getAttribute("pass")%>';
             if( passInput.length == 0 )
             {
               $('#curPassPass').hide();
@@ -241,7 +237,7 @@
         var passInput = $('#newPass').val();
         var checkInput = $('#confirmPass').val();
 
-        var check = '<%= curUser.getPass() %>';
+        var check = '<%=session.getAttribute("pass")%>';
 
         if( passInput.length >= 6 ) 
         {

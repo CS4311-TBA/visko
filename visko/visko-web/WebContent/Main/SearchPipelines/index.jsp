@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <title>Visko - Search Pipelines</title>
-
     <%@ include file="../includePage/header.jsp" %>
+    <%@ page import="edu.utep.trustlab.visko.web.html.*" %>
+    <%@ page import="java.util.*" %>     
 
         <!-- Bootstrap core CSS -->
     <link href="/visko-web/Main/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -49,14 +50,39 @@
               <!-- left Sie -->
               <div class="col-md-6">
                 <!-- Change Pass -->
-                <h3> Pipeline Search Criteria </h3>
+                <h3> Visualization Search Criteria </h3>
 
                 
-
+			<% 
+            SelectionOptionsHTML o = new SelectionOptionsHTML(); 
+            String [] options = (o.getViskoViews()).split(" "); 
+            List<String> abstractions = new ArrayList<String>();  
+            for(int i = 0; i < options.length; i++)
+            {
+              abstractions.add(options[i]);
+            }
+            String abstrString = "";
+            for(int i = 0; i < abstractions.size(); i++){
+            	if(abstractions.get(i).contains("1D_")){
+           			abstrString = abstractions.get(i).substring(abstractions.get(i).indexOf("1D_"),abstractions.get(i).length());
+           			abstractions.set(i, abstrString);
+            	}else if(abstractions.get(i).contains("2D_")){
+                    abstrString = abstractions.get(i).substring(abstractions.get(i).indexOf("2D_"),abstractions.get(i).length());
+                    abstractions.set(i, abstrString);
+            	}else if(abstractions.get(i).contains("3D_")){
+	              	abstrString = abstractions.get(i).substring(abstractions.get(i).indexOf("3D_"),abstractions.get(i).length());
+              		abstractions.set(i, abstrString);
+            	}
+            }//end for loop
+          %>
                     <div class="row">
                       <label class="control-label" for="abs">Abstraction</label>
                       <select class="form-control" name="abstraction">
-                        <option value="test">test</option>
+                        
+                        <%for (int i = 0; i < abstractions.size(); i++){
+                        						out.write( "<option>" + abstractions.get(i) + "</option>");
+                        						
+                        						}%>
                       </select>
 
                       <label class="control-label" for="inURL">Input URL</label>
@@ -66,38 +92,18 @@
 
                       <label class="control-label" for="viewerSet">Viewer Set</label>
                       <select class="form-control" name="viewerSet">
-                        <option value="test">test</option>
+                        <option value="test"><%=o.getViewerSets()%></option>
                       </select>
 
-                      <div class="col-md-6">
-                        <label class="control-label" for="sourceFormat">Source Format</label>
-                        <select class="form-control" name="sourceFormat">
-                          <option value="test">test</option>
-                        </select>
-                      </div>
+                      <label class="control-label" for="sourceFormat">Source Format</label>
+                      <select class="form-control" name="sourceFormat">
+                        <option value="test"><%=o.getFormats()%></option>
+                      </select>
 
-                      <div class="col-md-6">
-                        <label class="control-label" for="targetFormat">Target Format</label>
-                         <select class="form-control" name="targetFormat">
-                          <option value="test">test</option>
-                        </select>
-                      </div>
-
-                      <div class="col-md-6">
-                        <label class="control-label" for="sourceType">Source Type</label>
-                        <select class="form-control" name="sourceType">
-                          <option value="test">test</option>
-                        </select>
-                      </div>
-
-                      <div class="col-md-6">
-                        <label class="control-label" for="targetType">Target Type</label>
-                        <select class="form-control" name="targetType">
-                          <option value="test">test</option>
-                        </select>
-                      </div>
-
-                      
+                      <label class="control-label" for="sourceType">Source Type</label>
+                      <select class="form-control" name="sourceType">
+                        <option value="test"><%=o.getTypes()%></option>
+                      </select>
 
                     </div>
               
@@ -126,25 +132,26 @@
                     </div>
                   </div>
 
-                  <br><br><br><br><br>
+                  <br><br>
 
-
-                  <label class="control-label" for="error">Error</label>
-                  <select class="form-control" name="error">
-                    <option value="test">test</option>
+                  <label class="control-label" for="targetFormat">Target Format</label>
+                  <select class="form-control" name="targetFormat">
+                    <option value="test"><%=o.getFormats()%></option>
                   </select>
 
-                </div>
-              </div>
-            </div>
+                  <label class="control-label" for="targetType">Target Type</label>
+                  <select class="form-control" name="targetType">
+                    <option value="test"><%=o.getTypes()%></option>
+                  </select>
 
-            <div class="text-center">
+                  <div class="text-center">
                     <br>
                     <button id="submitButton" name="submitButton" type="submit" class="btn btn-success">Submit</button>
                    </div>
+                </div>
+              </div>
 
-
-
+            </div>
 
             <hr>
 

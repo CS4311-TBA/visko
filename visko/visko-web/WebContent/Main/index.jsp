@@ -12,10 +12,21 @@
 		
         try
         {
+<<<<<<< HEAD
         	
         	ResultSet rst = aDB.selectResultSet("Users", "*", "Uemail='"+request.getParameter("email").toLowerCase()+"' && Upassword='"+request.getParameter("password")+"'");
       
         	
+=======
+        	Class.forName("com.mysql.jdbc.Driver");
+	        Connection con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+
+	        String queryString = "SELECT * FROM Users WHERE (Uemail='"+request.getParameter("email")+"' && Upassword='"+request.getParameter("password")+"');";
+
+	        Statement stmt = con.createStatement();
+	       	ResultSet rst = stmt.executeQuery(queryString);
+
+>>>>>>> FETCH_HEAD
 	       	User curUser = new User( rst );
 	       	
 	       	if( ( !curUser.getEmail().equalsIgnoreCase("") || curUser.getEmail() != null ) &&

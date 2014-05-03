@@ -39,6 +39,12 @@
             else if (abstractionType.contains("Contour")){
             	description = " contour";
             	}
+            else if (abstractionType.contains("ForceGraph")){
+            	description = " assign forces among the set of edges and the set of nodes of a graph drawing. ";
+            }
+            else if (abstractionType.contains("PointMap")){
+            	description = " a map that contains detailed points depending on a specified data set";
+            }
             else if (abstractionType.contains("Raster")){
             	description = " a data layer consisting of a gridded array of cells";
             	}
