@@ -107,7 +107,7 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 			PipelineExecutorJob job = new PipelineExecutorJob(pipe);
 			job.setProvenanceLogging(captureProvenance);
 			
-			//
+			// log visualization to the Database
 			User user = (User) request.getSession().getAttribute("user");
 			String Usid = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
 			String Qid = access.selectMaxID("Query", "Qid", "Usid = '"+Usid+"';");

@@ -78,7 +78,7 @@ public class ResultsTableHTML {
 			addValues(key, value, result);
 			
 			
-			//
+			// Log Pipeline to the Database
 			String insertValues = Qid;
 			insertValues += "," +runLink.substring(runLink.indexOf("index=")+6, runLink.length());
 			insertValues += "," +runLink;
@@ -90,8 +90,7 @@ public class ResultsTableHTML {
 			insertValues += ",1";
 			insertValues += ",NOW()";
 			access.insertDB("Pipeline", "Qid, Pindex, PrunLink, PrunProvLink, Pconfigure, Pabstraction, Pformat, Pdescription, Pstatus, Ptime", insertValues);
-			
-			//String Pid = access.selectDB("Pipeline", "Pid", "Qid = '"+Qid+"' AND PrunLink = "+runLink+";");
+			//
 		}
 		
 		return result;
