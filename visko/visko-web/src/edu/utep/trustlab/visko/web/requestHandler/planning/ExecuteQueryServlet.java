@@ -118,9 +118,8 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			//resultMap = ResultsTableHTML.getHashMap(engine);
 			//resultMap = ResultsTableHTML.getHTML(engine, true);
 			
-			//
+			//log valid typed Query to Database	
 			insertValues += ",1";
-			//log typed Query to Database	
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
 					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
 			
@@ -132,9 +131,8 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 		}
 		else {
 		
-			//
+			//log invalid typed Query to Database	
 			insertValues += ",0";
-			//log typed Query to Database	
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
 					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
 			//
@@ -178,23 +176,21 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			session.setQueryEngine(engine);
 			request.getSession().setAttribute(ViskoWebSession.SESSION_ID, session);
 		
-			//
+			//log valid built Query to Database	
 			insertValues += ",1";
-			//log typed Query to Database	
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
 					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
 			
-			String Qid = access.selectDB("Query", "Qid", "Usid = "+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
-					" AND Qstring = "+stringQuery+";");
+			String Qid = access.selectDB("Query", "Qid", "Usid = '"+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
+					"' AND Qstring = \""+stringQuery+"\";");
 			//
 			
 			return ResultsTableHTML.getTreeMap(engine, Qid);
 		}
 		else {
 		
-			//
+			//log invalid built Query to Database	
 			insertValues += ",0";
-			//log typed Query to Database	
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
 					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
 			//

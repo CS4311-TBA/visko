@@ -85,14 +85,14 @@
 
         <!-- PAGE INFORMAITON GOES HERE -->
 
-          <h3>Option 1</h3>
+          <h2>VisKo  Query</h2>
 
           <div>
             <form action="/visko-web/ViskoServletManager">
               <input type="hidden" name="requestType" value="new-execute-query" />  
               <table style="width: 1023px; ">
                 <tr>
-                  <td colspan="2"><h2>VisKo  Query</h2></td>
+                  <td colspan="2"><h3>Option 1 - Type Query</h3></td>
                 </tr>
                 <tr>
                   <td style="width: 996px; " colspan="2" align="right">
@@ -155,7 +155,7 @@
             }
           %>
 
-          <h3>Option 2</h3>
+          <h3>Option 2 - Build Query</h3>
           <div class="panel-group" id="accordion">
             <div class="panel panel-default">
               <div class="panel-heading">

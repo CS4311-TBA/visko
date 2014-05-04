@@ -37,7 +37,7 @@
             	description = "a linear representation of important events in the order in which they occurred";
             	}
             else if (abstractionType.contains("Contour")){
-            	description = " contour";
+            	description = " a map marked with contour lines.";
             	}
             else if (abstractionType.contains("ForceGraph")){
             	description = " assign forces among the set of edges and the set of nodes of a graph drawing. ";
@@ -107,22 +107,26 @@
                 <select class="form-control" name="viewerSet" style="width: 500px"><%=o.getViewerSets()%>
               </select>
               </li>
-              <li><p><b>Viewer Sets</b>  refer to programs that present the abstractions...</p></li>
+              <li><p><b>Viewer Sets</b> refers to programs that present the abstractions onto the screen, 
+	              	such as visualization specific software like ParaView or more generic applications like 
+	              	a Web browser that can display images in standard formats.
+	              </p>
+              </li>
             <br>
               <li>
                 <select class="form-control" name="inputUrlFormat" style="width: 500px"><%=o.getFormats()%></select>  
               </li>
-              <li><p><b>Input Data Format</b>  refers to the file encoding of the input data set...</p></li>
+              <li><p><b>Input Data Format</b> refers to the file encoding of the input data set.</p></li>
             <br>
               <li>
                 <select class="form-control" name=inputUrlType style="width: 500px"><%=o.getTypes()%></select> 
               </li>
-              <li><p><b>Input Data Type</b> refers to the data structure represented by...</p></li>
+              <li><p><b>Input Data Type</b> refers to the data structure represented by the input data format.</p></li>
             <br>
               <li>
                 <input class="form-control" name="inputUrl" type="text" style="width: 500px">
               </li>
-              <li><p><b>Input Data URL</b>  refers to the location of the data to be visualized...</p></li>
+              <li><p><b>Input Data URL</b> refers to the location of the input data which is to be visualized.</p></li>
             </ul>
             <td><input type="submit" id="submitButton" style="width: 156px"></td>
           </form>
