@@ -120,16 +120,23 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			
 			//
 			insertValues += ",1";
-			request.getSession().setAttribute("typedQueryInsert", insertValues);
+			//log typed Query to Database	
+			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
+					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
+			
+			String Qid = access.selectDB("Query", "Qid", "Usid = '"+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
+					"' AND Qstring = \""+stringQuery+"\";");
 			//
 		
-			return ResultsTableHTML.getTreeMap(engine);
+			return ResultsTableHTML.getTreeMap(engine, Qid);
 		}
 		else {
 		
 			//
 			insertValues += ",0";
-			request.getSession().setAttribute("typedQueryInsert", insertValues);
+			//log typed Query to Database	
+			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
+					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
 			//
 			
 			return null;
@@ -173,16 +180,23 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 		
 			//
 			insertValues += ",1";
-			request.getSession().setAttribute("buildQueryInsert", insertValues);
+			//log typed Query to Database	
+			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
+					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
+			
+			String Qid = access.selectDB("Query", "Qid", "Usid = "+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
+					" AND Qstring = "+stringQuery+";");
 			//
 			
-			return ResultsTableHTML.getTreeMap(engine);
+			return ResultsTableHTML.getTreeMap(engine, Qid);
 		}
 		else {
 		
 			//
 			insertValues += ",0";
-			request.getSession().setAttribute("buildQueryInsert", insertValues);
+			//log typed Query to Database	
+			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
+					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
 			//
 			
 			return null;

@@ -25,13 +25,14 @@ import java.util.TreeMap;
 import edu.utep.trustlab.visko.planning.QueryEngine;
 import edu.utep.trustlab.visko.planning.pipelines.Pipeline;
 import edu.utep.trustlab.visko.planning.pipelines.PipelineSet;
+import edu.utep.trustlab.visko.web.Access;
 
 public class ResultsTableHTML {
 	
 	/*
 	 * returns TreeMap of pipelines, or empty TreeMap
 	 */
-	public static TreeMap<String, ArrayList<String>> getTreeMap(QueryEngine engine) {
+	public static TreeMap<String, ArrayList<String>> getTreeMap(QueryEngine engine, String Qid) {
 		
 		PipelineSet pipes = engine.getPipelines();
 		
@@ -39,10 +40,11 @@ public class ResultsTableHTML {
 		{
 			//HashMap<String, ArrayList<String>> result = new HashMap<String, ArrayList<String>>();
 			//result = getVisualizationAndPipelineHashMap(pipes, engine.getQuery().hasValidDataPointer() );
-			return getVisualizationAndPipelineHashMap(pipes, engine.getQuery().hasValidDataPointer() );
+			
+			return getVisualizationAndPipelineHashMap(pipes, engine.getQuery().hasValidDataPointer(), Qid);
 		}
 		else
-		{
+		{	
 			return new TreeMap<String, ArrayList<String>>();
 		}
 	}
@@ -50,8 +52,9 @@ public class ResultsTableHTML {
 	/*
 	 * Returns TreeMap
 	 */
-	private static TreeMap<String, ArrayList<String>> getVisualizationAndPipelineHashMap( PipelineSet pipes, boolean hasValidDataPointer) {
+	private static TreeMap<String, ArrayList<String>> getVisualizationAndPipelineHashMap( PipelineSet pipes, boolean hasValidDataPointer, String Qid) {
 		
+		Access access = new Access();
 		TreeMap<String, ArrayList<String>> result = new TreeMap<String, ArrayList<String>>();
 		
 		for (int i = 0; i < pipes.size(); i++) {
@@ -73,7 +76,24 @@ public class ResultsTableHTML {
 			String key = ptoolKit;
 			String value = runLink + "|" + runProvLink + "|" + configure + "|" + abstraction + "|" + format + "|" + description;
 			addValues(key, value, result);
+			
+			
+			//
+			String insertValues = Qid;
+			insertValues += "," +runLink.substring(runLink.indexOf("index=")+6, runLink.length());
+			insertValues += "," +runLink;
+			insertValues += "," +runProvLink;
+			insertValues += "," +configure;
+			insertValues += "," +abstraction;
+			insertValues += "," +format;
+			insertValues += "," +description;
+			insertValues += ",1";
+			insertValues += ",NOW()";
+			access.insertDB("Pipeline", "Qid, Pindex, PrunLink, PrunProvLink, Pconfigure, Pabstraction, Pformat, Pdescription, Pstatus, Ptime", insertValues);
+			
+			//String Pid = access.selectDB("Pipeline", "Pid", "Qid = '"+Qid+"' AND PrunLink = "+runLink+";");
 		}
+		
 		return result;
 	}
 	

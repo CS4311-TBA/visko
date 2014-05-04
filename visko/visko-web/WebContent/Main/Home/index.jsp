@@ -16,7 +16,7 @@
      
     <%@ include file="../includePage/sideBar.jsp" %>
 
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
       <div class="container">
         <div class="row">
           <h1>What is VisKo?</h1>
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
       <img src="/visko-web/Main/assets/img/splash_vis.png" class="img-responsive" alt="Responsive image">
     </div>    
     

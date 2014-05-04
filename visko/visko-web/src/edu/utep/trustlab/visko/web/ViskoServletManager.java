@@ -83,30 +83,16 @@ public class ViskoServletManager extends HttpServlet {
 		}
 		else if( requestType.equalsIgnoreCase("new-execute-query") )
 		{
-			Access access = new Access();
 			TreeMap<String, ArrayList<String>> result = new ExecuteQueryServlet().getTreeMap(request, response);		
 			request.getSession().setAttribute("resultMap", result);
-			
-			//log typed Query to Database
-			String insertValues = (String) request.getSession().getAttribute("typedQueryInsert");
-			
-			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
-					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
-			
+
 			response.sendRedirect("Main/Visualize/SelectPipelines.jsp");
 		}
 		
 		else if( requestType.equalsIgnoreCase("new-build-query") )
-		{	
-			Access access = new Access();
+		{
 			TreeMap<String, ArrayList<String>> result = new ExecuteQueryServlet().getTreeMapBuild(request, response);
 			request.getSession().setAttribute("resultMap", result);
-			
-			//log built Query to Database
-			String insertValues = (String) request.getSession().getAttribute("buildQueryInsert");
-			
-			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
-					+"QtargetFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
 			
 			response.sendRedirect("Main/Visualize/SelectPipelines.jsp");
 		}		

@@ -30,6 +30,8 @@ import edu.utep.trustlab.visko.execution.PipelineExecutor;
 import edu.utep.trustlab.visko.execution.PipelineExecutorJob;
 import edu.utep.trustlab.visko.planning.QueryEngine;
 import edu.utep.trustlab.visko.planning.pipelines.Pipeline;
+import edu.utep.trustlab.visko.web.Access;
+import edu.utep.trustlab.visko.web.User;
 import edu.utep.trustlab.visko.web.context.ViskoWebSession;
 import edu.utep.trustlab.visko.web.requestHandler.RequestHandlerRedirect;
 
@@ -86,6 +88,7 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 	public void newExecutePipeline (HttpServletRequest request, HttpServletResponse response, HttpServlet servlet) throws IOException, ServletException {
 		String provenance = request.getParameter("provenance");
 		String stringIndex = request.getParameter("index");
+		Access access = new Access();
 
 		boolean captureProvenance = false;
 		if(provenance != null)
@@ -103,6 +106,18 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 						
 			PipelineExecutorJob job = new PipelineExecutorJob(pipe);
 			job.setProvenanceLogging(captureProvenance);
+			
+			//
+			User user = (User) request.getSession().getAttribute("user");
+			String Usid = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
+			String Qid = access.selectMaxID("Query", "Qid", "Usid = '"+Usid+"';");
+			String Pid = access.selectDB("Pipeline", "Pid", "Qid = '"+Qid+"' AND Pindex = '"+index+"';");
+			
+			String insertValues = Qid;
+			insertValues += "," +Pid;
+			insertValues += ",NOW()";
+			access.insertDB("Visualization", "Qid, Pid, Vtime", insertValues);
+			//
 			
 			PipelineExecutor runningPipeline = new PipelineExecutor();
 			runningPipeline.setJob(job);

@@ -97,6 +97,50 @@ public class Access {
         return result; 
 	        
 	}
+	 
+	 
+	 /**
+	     * retrieve maximum cell from column specified from the database
+	     * receives parameters:
+	     * table: String name of the database table to select from
+	     * column: String name of the column to select from
+	     * constraint: String containing value for select constraints
+	     * creates select statement: "SELECT MAX("column") FROM "table" WHERE "constraint";"
+	     * returns: String of result from select statement, or null if unsuccessful
+	     */
+		 public String selectMaxID(String table, String column, String constraint){
+			    
+	    	String result = null;
+	    	Connection con;
+	    	
+	    	try{
+	    		
+	    		Class.forName("com.mysql.jdbc.Driver");
+	    		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+
+	    		String queryString = "SELECT MAX("+column+") FROM "+table+" WHERE "+constraint+";";
+
+	    		Statement stmt = con.createStatement();
+	    		ResultSet rst = stmt.executeQuery(queryString);
+	    		
+	    		rst.next();
+	    		if(!rst.wasNull()){
+	    			result = rst.getString("MAX("+column+")");
+				}
+	        }
+	        catch(SQLException s){
+	        	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
+	        }
+	    	catch(ClassNotFoundException cnfe)
+	        {
+	        	System.out.println("Class Not Found Error: " + cnfe.getMessage());
+	        }
+	        catch(Exception e){
+	        	System.out.println("Error: " + e.getMessage());
+	        }
+	        return result; 
+		        
+		}
     
     
     public ResultSet selectResultSet( String table, String column, String constraint){
@@ -164,7 +208,7 @@ public class Access {
 	        }
 	        queryString += ");";
 	        
-	        System.out.println(":"+queryString+":");//testing
+	        //System.out.println(":"+queryString+":");//testing
 	        
 	        Statement call = con.createStatement();
 	        call.execute(queryString);
