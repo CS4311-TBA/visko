@@ -335,6 +335,7 @@
                             "<td>" + rst.getString("Ufirstname") + "</td>" + 
                             "<td>" + rst.getString("Ulastname") + "</td>" + 
                             "<td>" + rst.getString("Uorganization") + "</td>" + 
+                            "<td>" + "<button id=\"toggleButton\" name=\"toggleButton\" type=\"toggle\" class=\"btn btn-info\">Toggle</button>" + "</td>" + 
                             "</tr>";
                         out.println( html );
                     }
