@@ -210,7 +210,7 @@
      
     <%@ include file="../includePage/sideBar.jsp" %>
 
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
       <div class="container">
         <div class="row">
 
@@ -221,7 +221,7 @@
             <div class="row">
             
 
-              <!-- left Sie -->
+              <!-- left Side -->
               <div class="col-md-6">
                 <!-- Change Pass -->
                 <h3> User Search Criteria </h3>
@@ -315,10 +315,9 @@
              <%
                 if( rst != null )
                 {
-                    out.println(" <div class='row'>");
-                   
-                    out.println("<div><br><label for='results'>Results</label>");
-                    out.println("<table style='border:1px solid black;border-collapse:collapse;' >");
+                    out.println("<div class='row'>");
+                    out.println("<div class=\"col-md-10\"><br><label for='results'>Results</label>");
+                    out.println("<table class=\"table table-striped\">");
                     out.println("<tr><tr>");
                     out.println("<th bgcolor='#B4CDCD' style='border:1px solid black;padding:15px;'>Date Joined</th>");
                     out.println("<th bgcolor='#B4CDCD' style='border:1px solid black;padding:15px;'>Account Status</th> ");
