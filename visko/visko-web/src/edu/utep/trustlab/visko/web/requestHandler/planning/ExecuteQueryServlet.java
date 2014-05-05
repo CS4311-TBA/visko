@@ -119,9 +119,8 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			//resultMap = ResultsTableHTML.getHTML(engine, true);
 			
 			//log valid typed Query to Database	
-			insertValues += ",1";
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
-					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
+					+"QsourceFormat, QtargetType, Qtime, Qstring", insertValues);
 			
 			String Qid = access.selectDB("Query", "Qid", "Usid = '"+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
 					"' AND Qstring = \""+stringQuery+"\";");
@@ -135,6 +134,11 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			insertValues += ",0";
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
 					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
+			String Qid = access.selectDB("Query", "Qid", "Usid = '"+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
+					"' AND Qstring = \""+stringQuery+"\";");
+			access.insertDB("Error", "Edetail, Etime", "Query is Invalid,NOW()");
+			String Eid = access.selectMaxID("Error", "Eid");
+			access.insertDB("QueryError", "Qid, Eid, QEtime", Qid+","+Eid+",NOW()");
 			//
 			
 			return null;
@@ -177,9 +181,8 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			request.getSession().setAttribute(ViskoWebSession.SESSION_ID, session);
 		
 			//log valid built Query to Database	
-			insertValues += ",1";
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
-					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
+					+"QsourceFormat, QtargetType, Qtime, Qstring", insertValues);
 			
 			String Qid = access.selectDB("Query", "Qid", "Usid = '"+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
 					"' AND Qstring = \""+stringQuery+"\";");
@@ -193,6 +196,11 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			insertValues += ",0";
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
 					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
+			String Qid = access.selectDB("Query", "Qid", "Usid = '"+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
+					"' AND Qstring = \""+stringQuery+"\";");
+			access.insertDB("Error", "Edetail, Etime", "Query is Invalid,NOW()");
+			String Eid = access.selectMaxID("Error", "Eid");
+			access.insertDB("QueryError", "Qid, Eid, QEtime", Qid+","+Eid+",NOW()");
 			//
 			
 			return null;

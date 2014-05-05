@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.utep.trustlab.visko.execution.PipelineExecutor;
 import edu.utep.trustlab.visko.execution.PipelineExecutorJob;
+import edu.utep.trustlab.visko.execution.PipelineExecutorJobStatus;
 import edu.utep.trustlab.visko.planning.QueryEngine;
 import edu.utep.trustlab.visko.planning.pipelines.Pipeline;
 import edu.utep.trustlab.visko.web.Access;
@@ -88,8 +89,17 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 	public void newExecutePipeline (HttpServletRequest request, HttpServletResponse response, HttpServlet servlet) throws IOException, ServletException {
 		String provenance = request.getParameter("provenance");
 		String stringIndex = request.getParameter("index");
+		
+		//
+		int index = Integer.valueOf(stringIndex);
+		
 		Access access = new Access();
-
+		User user = (User) request.getSession().getAttribute("user");
+		String Usid = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
+		String Qid = access.selectMaxID("Query", "Qid", "Usid = '"+Usid+"';");
+		String Pid = access.selectDB("Pipeline", "Pid", "Qid = '"+Qid+"' AND Pindex = '"+index+"';");
+		//
+		
 		boolean captureProvenance = false;
 		if(provenance != null)
 			captureProvenance = true;
@@ -98,7 +108,7 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 		ExecutePipelineStatusBean statusBean;
 				
 		if(!session.hasPipelineExecutor()){
-			int index = Integer.valueOf(stringIndex);
+			index = Integer.valueOf(stringIndex);
 			
 			System.out.println("Kicking off new pipeline executor...");
 			QueryEngine engine = session.getQueryEngine();
@@ -108,10 +118,7 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 			job.setProvenanceLogging(captureProvenance);
 			
 			// log visualization to the Database
-			User user = (User) request.getSession().getAttribute("user");
-			String Usid = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
-			String Qid = access.selectMaxID("Query", "Qid", "Usid = '"+Usid+"';");
-			String Pid = access.selectDB("Pipeline", "Pid", "Qid = '"+Qid+"' AND Pindex = '"+index+"';");
+			
 			
 			String insertValues = Qid;
 			insertValues += "," +Pid;
@@ -128,14 +135,29 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 			
 			System.out.println("Redirecting to self...");
 			if(captureProvenance)
-				response.sendRedirect("ViskoServletManager?provenance=true&requestType=execute-pipeline&index=" + index);
+				response.sendRedirect("ViskoServletManager?provenance=true&requestType=new-execute-pipeline&index=" + index);
 			else
-				response.sendRedirect("ViskoServletManager?provenance=true&requestType=execute-pipeline&index=" + index);
+				response.sendRedirect("ViskoServletManager?provenance=true&requestType=new-execute-pipeline&index=" + index);
 		}	
 		else{		
 	        statusBean = new ExecutePipelineStatusBean(session.getPipelineExecutor().getJob());
 	        
 	        if(!session.getPipelineExecutor().isAlive() || session.getPipelineExecutor().getJob().getJobStatus().isJobCompleted()){
+	        	
+	        	// finish logging pipeline status to database
+	        	PipelineExecutorJobStatus status = session.getPipelineExecutor().getJob().getJobStatus();
+	 			//if pipeline executed correctly, flag it's status as valid
+	 			if(status.getPipelineState().name().equals("COMPLETE")){
+	 				access.updateDB("Pipeline", "Pstatus", "1", "Pid", Pid);
+	 			}
+	 			else{ //if failure while pipeline executed, flag it as failure 
+	 				access.updateDB("Pipeline", "Pstatus", "0", "Pid", Pid);
+	 				access.insertDB("Failure", "Fdetail, Ftime", "Pipeline Failure: "+status.toString()+",NOW()");
+	 				String Fid = access.selectMaxID("Failure", "Fid");
+	 				access.insertDB("PipelineFailure", "Pid, Fid, PFtime", Pid+","+Fid+",NOW()");
+	 			}
+	 			//
+	        	
 	        	session.removePipelineExecutor();
 	        }
 	        

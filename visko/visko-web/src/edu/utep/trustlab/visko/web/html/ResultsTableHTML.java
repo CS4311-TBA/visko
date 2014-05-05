@@ -35,16 +35,38 @@ public class ResultsTableHTML {
 	public static TreeMap<String, ArrayList<String>> getTreeMap(QueryEngine engine, String Qid) {
 		
 		PipelineSet pipes = engine.getPipelines();
+		Access access = new Access();
 		
 		if( pipes.size() > 0 )
 		{
 			//HashMap<String, ArrayList<String>> result = new HashMap<String, ArrayList<String>>();
 			//result = getVisualizationAndPipelineHashMap(pipes, engine.getQuery().hasValidDataPointer() );
-			
-			return getVisualizationAndPipelineHashMap(pipes, engine.getQuery().hasValidDataPointer(), Qid);
+			try{
+				return getVisualizationAndPipelineHashMap(pipes, engine.getQuery().hasValidDataPointer(), Qid);
+			}
+			catch(Exception e){
+				//if error while query produces pipelines, flag it as error
+		     	System.out.println("Error: " + e.getMessage());	     	
+				access.updateDB("Query", "Qstatus", "0", "Qid", Qid);
+				access.insertDB("Error", "Edetail, Etime", e.getMessage()+",NOW()");
+				String Eid = access.selectMaxID("Error", "Eid");
+				access.insertDB("QueryError", "Qid, Eid, QEtime", Qid+","+Eid+",NOW()");
+				//
+				
+				//return empty tree
+				return new TreeMap<String, ArrayList<String>>();
+		    }
 		}
 		else
 		{	
+			//if query produces no pipelines, flag it as error
+			access.updateDB("Query", "Qstatus", "0", "Qid", Qid);
+			access.insertDB("Error", "Edetail, Etime", "Query Produced No Pipelines,NOW()");
+			String Eid = access.selectMaxID("Error", "Eid");
+			access.insertDB("QueryError", "Qid, Eid, QEtime", Qid+","+Eid+",NOW()");
+			//
+			
+			//return empty tree
 			return new TreeMap<String, ArrayList<String>>();
 		}
 	}
@@ -52,7 +74,7 @@ public class ResultsTableHTML {
 	/*
 	 * Returns TreeMap
 	 */
-	private static TreeMap<String, ArrayList<String>> getVisualizationAndPipelineHashMap( PipelineSet pipes, boolean hasValidDataPointer, String Qid) {
+	private static TreeMap<String, ArrayList<String>> getVisualizationAndPipelineHashMap( PipelineSet pipes, boolean hasValidDataPointer, String Qid) throws Exception{
 		
 		Access access = new Access();
 		TreeMap<String, ArrayList<String>> result = new TreeMap<String, ArrayList<String>>();
@@ -87,11 +109,12 @@ public class ResultsTableHTML {
 			insertValues += "," +abstraction;
 			insertValues += "," +format;
 			insertValues += "," +description;
-			insertValues += ",1";
 			insertValues += ",NOW()";
-			access.insertDB("Pipeline", "Qid, Pindex, PrunLink, PrunProvLink, Pconfigure, Pabstraction, Pformat, Pdescription, Pstatus, Ptime", insertValues);
+			access.insertDB("Pipeline", "Qid, Pindex, PrunLink, PrunProvLink, Pconfigure, Pabstraction, Pformat, Pdescription, Ptime", insertValues);
 			//
 		}
+		//if query produces pipelines, flag it as valid
+		access.updateDB("Query", "Qstatus", "1", "Qid", Qid);
 		
 		return result;
 	}

@@ -1,4 +1,4 @@
-package edu.utep.trustlab.visko.web;
+package edu.utep.trustlab.visko.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
