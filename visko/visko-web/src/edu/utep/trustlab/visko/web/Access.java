@@ -197,6 +197,8 @@ public class Access {
 			
 			String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
 			
+			System.out.println(":"+queryString+":");//testing
+			
 			Statement stmt = con.createStatement();
 			result = stmt.executeQuery(queryString);
     	}

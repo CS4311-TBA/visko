@@ -4,7 +4,204 @@
     <title>Visko</title>
     <%@ include file="../includePage/header.jsp" %>
     <%@ page import="edu.utep.trustlab.visko.web.html.*" %>
-    <%@ page import="java.util.*" %>     
+    <%@ page import="java.util.*" %>
+    <%@ page import ="java.sql.*" %>
+    
+    <%
+    	boolean formSubmitted = Boolean.parseBoolean( request.getParameter("fSubmitted") );
+	    ResultSet queryResult = null;
+	    ResultSet queryErrorResult = null;
+	    ResultSet errorResult = null;
+	    
+	    if( formSubmitted )
+    	{
+
+	    	String abstraction = request.getParameter( "abstraction" );
+    		String inputUrl = request.getParameter( "inputUrl" );
+    		String viewerSet = request.getParameter( "viewerSet" );
+    		String sourceFormat = request.getParameter( "sourceFormat" );
+    		String sourceType = request.getParameter( "sourceType" );
+    		String targetFormat = request.getParameter( "targetFormat" );
+    		String targetType = request.getParameter( "targetType" );
+    		String start = request.getParameter( "startDate" );
+    		String end = request.getParameter( "endDate" );
+    		
+    		String constraints = "(";
+    		boolean conAdded = false;
+
+            /*
+            if( email == null || email.equalsIgnoreCase("") )
+            {
+                out.println("<br><br><br><br><br><br><div class='col-md-10 col-md-offset-2'><div class='container'><div class='row'>email: ( NULL OR EMPTY )</div></div></div>");
+            }
+            else
+            {
+                out.println("<br><br><br><br><br><br><div class='col-md-10 col-md-offset-2'><div class='container'><div class='row'>email: (" + email + ")</div></div></div>");
+            }
+            */
+
+
+            
+    		
+    		if( !abstraction.equalsIgnoreCase("") && abstraction != null )
+    		{
+    			constraints += " Qtype = '" + abstraction + "' ";
+    			conAdded = true;
+    		}
+    		
+    		if( !inputUrl.equalsIgnoreCase("") && inputUrl != null )
+    		{
+    			if( conAdded )
+    			{
+    				constraints += "&& QinputUrl = '" + inputUrl + "' ";	
+    			}
+    			else
+    			{
+    				constraints += " QinputUrl = '" + inputUrl + "' ";
+    				conAdded = true;
+    			}
+    			
+    		}
+    		
+    		if( !viewerSet.equalsIgnoreCase("") && viewerSet != null )
+    		{
+    			if( conAdded )
+    			{
+    				constraints += "&& QviewerSet = '" + viewerSet + "' ";	
+    			}
+    			else
+    			{
+    				constraints += " QviewerSet = '" + viewerSet + "' ";
+    				conAdded = true;
+    			}
+    			
+    		}
+    		
+    		if( !sourceFormat.equalsIgnoreCase("") && sourceFormat != null )
+    		{
+                if( !sourceFormat.equalsIgnoreCase("*") )
+                {
+                    if( conAdded )
+                    {
+                        constraints += "&& QsourceFormat = '" + sourceFormat + "' ";    
+                    }
+                    else
+                    {
+                        constraints += " QsourceFormat = '" + sourceFormat + "' ";
+                        conAdded = true;
+                    }
+                }	
+    		}
+    		
+    		if( !sourceType.equalsIgnoreCase("") && sourceType != null )
+    		{
+                if( !sourceType.equalsIgnoreCase("*") )
+                {
+        			if( conAdded )
+        			{
+        				constraints += "&& QsourceType = '" + sourceType + "' ";	
+        			}
+        			else
+        			{
+        				constraints += " QsourceType = '" + sourceType + "' ";
+        				conAdded = true;
+        			}
+                }
+    			
+    		}
+
+    		if( !targetFormat.equalsIgnoreCase("") && targetFormat != null )
+    		{
+                if( !targetFormat.equalsIgnoreCase("*") )
+                {
+                    if( conAdded )
+                    {
+                        constraints += "&& QtargetFormat = '" + targetFormat + "' ";    
+                    }
+                    else
+                    {
+                        constraints += " QtargetFormat = '" + targetFormat + "' ";
+                        conAdded = true;
+                    }
+                }	
+    		}
+    		
+    		if( !targetType.equalsIgnoreCase("") && targetType != null )
+    		{
+                if( !targetType.equalsIgnoreCase("*") )
+                {
+        			if( conAdded )
+        			{
+        				constraints += "&& QtargetType = '" + targetType + "' ";	
+        			}
+        			else
+        			{
+        				constraints += " QtargetType = '" + targetType + "' ";
+        				conAdded = true;
+        			}
+                }
+    			
+    		}
+    		
+    		
+    		// both start and end found
+    		if( (!start.equalsIgnoreCase("") && start != null) && (!end.equalsIgnoreCase("") && end != null) )
+    		{
+    			if( conAdded )
+    			{
+    				constraints += "&& Qtime BETWEEN '" + start + "' and '" + end + "' ";	
+    			}
+    			else
+    			{
+    				constraints += " Qtime BETWEEN '" + start + "' and '" + end + "' ";
+    				conAdded = true;
+    			}
+    			
+    		}//only start found
+    		else if( (!start.equalsIgnoreCase("") && start != null) && 
+    				(end.equalsIgnoreCase("") || end == null) )
+    		{
+    			if( conAdded )
+    			{
+    				constraints += "&& Qtime > '" + start + "'  ";	
+    			}
+    			else
+    			{
+    				constraints += " Qtime > '" + start + "' ";
+    				conAdded = true;
+    			}	
+    		}//only end found
+    		else if( (start.equalsIgnoreCase("") || start == null) && 
+    				(!end.equalsIgnoreCase("") && end != null) )
+    		{
+    			if( conAdded )
+    			{
+    				constraints += "&& Qtime < '" + end + "'  ";	
+    			}
+    			else
+    			{
+    				constraints += " Qtime < '" + end + "' ";
+    				conAdded = true;
+    			}	
+    		}
+    		
+
+    		
+    		if( conAdded )
+    		{
+    			constraints += ")";	
+    		}
+    		else
+    		{
+    			constraints += "Qstatus IS NOT NULL )";
+    		}
+    		
+    		Access aDB = new Access();
+    		
+    		queryResult = aDB.selectResultSet("Query", "*", constraints);
+    		   
+    	}
+    %>   
 
         <!-- Bootstrap core CSS -->
     <link href="/visko-web/Main/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -47,7 +244,7 @@
             <div class="row">
             
 
-              <!-- left Sie -->
+              <!-- left Side -->
               <div class="col-md-6">
                 <!-- Change Pass -->
                 <h3> Query Search Criteria </h3>
@@ -78,32 +275,31 @@
                     <div class="row">
                                        
                       <label class="control-label" for="abs">Abstraction</label>
-                      <select class="form-control" name="abstraction">
-                        
-                        <%for (int i = 0; i < abstractions.size(); i++){
-                        						out.write( "<option>" + abstractions.get(i) + "</option>");
-                        						
-                        						}%>
+                      <select class="form-control" name="abstraction">               
+	                      <%
+	                      	out.write( "<option value=\"\"> </option>");
+	                      	for (int i = 0; i < abstractions.size(); i++){
+	                      		out.write( "<option value=\""+options[i]+"\">" + abstractions.get(i) + "</option>");
+	                      	}
+	                      %>
                       </select>
 
-                      <label class="control-label" for="inURL">Input URL</label>
-                      <select class="form-control" name="inputURL">
-                        <option value="test">test</option>
-                      </select>
+                      <label class="control-label" for="inputUrl">Input URL</label>
+                      <input class="form-control" type="text" name="inputUrl">
 
                       <label class="control-label" for="viewerSet">Viewer Set</label>
                       <select class="form-control" name="viewerSet">
-                        <option value="test"><%=o.getViewerSets()%></option>
+                        <option value=""><%=o.getViewerSets()%></option>
                       </select>
 
                       <label class="control-label" for="sourceFormat">Source Format</label>
                       <select class="form-control" name="sourceFormat">
-                        <option value="test"><%=o.getFormats()%></option>
+                        <option value=""><%=o.getFormats()%></option>
                       </select>
 
                       <label class="control-label" for="sourceType">Source Type</label>
                       <select class="form-control" name="sourceType">
-                        <option value="test"><%=o.getTypes()%></option>
+                        <option value=""><%=o.getTypes()%></option>
                       </select>
 
                     </div>
@@ -137,13 +333,17 @@
 
                   <label class="control-label" for="targetFormat">Target Format</label>
                   <select class="form-control" name="targetFormat">
-                    <option value="test"><%=o.getFormats()%></option>
+                    <option value=""><%=o.getFormats()%></option>
                   </select>
 
                   <label class="control-label" for="targetType">Target Type</label>
                   <select class="form-control" name="targetType">
-                    <option value="test"><%=o.getTypes()%></option>
+                    <option value=""><%=o.getTypes()%></option>
                   </select>
+                  
+                  <input type="hidden" name="fSubmitted" id="fSubmitted" value="true">
+                  <input type="hidden" name="startDate" id="startDate" value="">
+                  <input type="hidden" name="endDate" id="endDate" value="">
 
                   <div class="text-center">
                     <br>
@@ -162,26 +362,47 @@
 
         </div>
 
-        <div class="row">
-		<div>
-			<br>
-			<label for="results">Results</label>
-			<table style="border:1px solid black;border-collapse:collapse;" >
-			<tr>
-			
-			  <tr>
-				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">ID</th>
-				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Submitted By User</th> 
-				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Data Executed</th>
-				  <th bgcolor="#B4CDCD" style="border:1px solid black;padding:15px;">Error</th>
-				  
-			 </tr>
-			 
-			</table>
-           </div>
-        
+		<%
+			Access access = new Access();
+            
+            if( queryResult != null )
+            {
+                out.println("<div class='row'>");
+                out.println("<div class=\"col-md-10\"><br><label for='results'>Results</label>");
+                out.println("<table class=\"table table-striped\">");
+                out.println("<tr><tr>");
+                out.println("<th bgcolor='#B4CDCD' style='border:1px solid black;padding:15px;'>ID</th>");
+                out.println("<th bgcolor='#B4CDCD' style='border:1px solid black;padding:15px;'>Submitted By User</th>");
+                out.println("<th bgcolor='#B4CDCD' style='border:1px solid black;padding:15px;'>Date Created</th>");
+                out.println("<th bgcolor='#B4CDCD' style='border:1px solid black;padding:15px;'>Error</th>");
+                out.println("</tr>");
 
-        </div>
+				
+
+                while( queryResult.next() )
+                {
+                	
+            		String Eid = access.selectDB("QueryError", "Eid", "Qid = '"+queryResult.getString("Qid")+"'");
+            		String errorMessage;
+            		if(Eid != null)
+            			errorMessage = access.selectDB("Error", "Edetail", "Eid = '"+Eid+"'");
+            		else
+            			errorMessage = "No Error";
+            			
+                	
+                    String html = "<tr align='center'><td>" + queryResult.getString("Qid") + "</td>" +
+                		"<td>" + queryResult.getString("Qusername") + "</td>" +
+                        "<td>" + queryResult.getString("Qtime") + "</td>" +
+                      	"<td>" + errorMessage + "</td>" +
+                        "<td>" + "<button id=\"detailButton\" name=\"detailButton\" type=\"button\" class=\"btn btn-info\">Details</button>" + "</td>" +
+                        "</tr>";
+                    out.println( html );
+                }
+
+                out.println("</table></div></div>");
+            }
+        %>
+        
       </div>      
     </div>
 

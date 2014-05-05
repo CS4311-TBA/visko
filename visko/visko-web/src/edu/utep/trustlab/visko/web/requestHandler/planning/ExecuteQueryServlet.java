@@ -99,7 +99,7 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 		User user = (User) request.getSession().getAttribute("user");
 		String insertValues = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
 		insertValues += "," + user.getEmail();
-		insertValues += "," + query.getTypeURI();
+		insertValues += "," + query.getViewURI();
 		insertValues += "," + query.getArtifactURL();
 		insertValues += "," + query.getViewerSetURI();
 		insertValues += "," + query.getTargetFormatURI();
