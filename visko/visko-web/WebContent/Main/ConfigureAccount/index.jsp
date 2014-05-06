@@ -12,7 +12,7 @@
   boolean cEmail = Boolean.parseBoolean( request.getParameter("emailChange") );
   boolean cPass = Boolean.parseBoolean( request.getParameter("passwordChange") );
 
-  User curUser = (User)session.getAttribute("user");
+  User cUser = (User)session.getAttribute("user");
   String nEmail = request.getParameter("newEmail");
   String nPass = request.getParameter("newPass");
 
@@ -32,11 +32,11 @@
 
       st1.executeUpdate("UPDATE Users SET Uemail='" + nEmail
       + "', Upassword='"+ nPass +"' WHERE Uemail='"
-      + curUser.getEmail() +"';");
+      + cUser.getEmail() +"';");
 
-      curUser.setEmail(nEmail);
-      curUser.setPass(nPass);
-      session.setAttribute("user", curUser);
+      cUser.setEmail(nEmail);
+      cUser.setPass(nPass);
+      session.setAttribute("user", cUser);
       warning = "<p style='color:green'>Email and Password updated successfully.</p>";
 
     }
@@ -49,10 +49,10 @@
       Statement st1 = con.createStatement();
 
       st1.executeUpdate("UPDATE Users SET Uemail='" + nEmail 
-      + "' WHERE Uemail='" + curUser.getEmail() +"';");
+      + "' WHERE Uemail='" + cUser.getEmail() +"';");
 
-      curUser.setEmail(nEmail);
-      session.setAttribute("user", curUser);
+      cUser.setEmail(nEmail);
+      session.setAttribute("user", cUser);
       warning = "<p style='color:green'>Email updated successfully.</p>";
 
 
@@ -64,10 +64,10 @@
       Statement st1 = con.createStatement();
 
       st1.executeUpdate("UPDATE Users SET Upassword='"+ nPass +"' WHERE Uemail='"
-      + curUser.getEmail() +"';");
+      + cUser.getEmail() +"';");
 
-      curUser.setPass(nPass);
-      session.setAttribute("user", curUser);
+      cUser.setPass(nPass);
+      session.setAttribute("user", cUser);
       warning = "<p style='color:green'>Password updated successfully.</p>";
     }
     else
@@ -176,7 +176,7 @@
           setTimeout(function(){ 
             var passInput = $('#curPass').val();
             //var check = $('#passSession').val();
-            var check = '<%= curUser.getPass() %>';
+            var check = '<%= cUser.getPass() %>';
             if( passInput.length == 0 )
             {
               $('#curPassPass').hide();
@@ -241,7 +241,7 @@
         var passInput = $('#newPass').val();
         var checkInput = $('#confirmPass').val();
 
-        var check = '<%= curUser.getPass() %>';
+        var check = '<%= cUser.getPass() %>';
 
         if( passInput.length >= 6 ) 
         {
