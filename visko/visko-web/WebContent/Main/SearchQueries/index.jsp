@@ -389,13 +389,15 @@
             		else
             			errorMessage = "No Error";
             			
+            		request.getSession().setAttribute("Qid", queryResult.getString("Qid"));
+            		request.getSession().setAttribute("Eid", Eid);
                 	
-                    String html = "<tr align='center'><td>" + queryResult.getString("Qid") + "</td>" +
+                    String html = "<form action=\"ViewDetails.jsp\"><tr align='center'><td>" + queryResult.getString("Qid") + "</td>" +
                 		"<td>" + queryResult.getString("Qusername") + "</td>" +
                         "<td>" + queryResult.getString("Qtime") + "</td>" +
                       	"<td>" + errorMessage + "</td>" +
-                        "<td>" + "<button id=\"detailButton\" name=\"detailButton\" type=\"button\" class=\"btn btn-info\">Details</button>" + "</td>" +
-                        "</tr>";
+                        "<td>" + "<a class=\"btn btn-info\"  role=\"submit\">Details</a>" + "</td>" +
+                        "</tr><form>";
                     out.println( html );
                 }
 
