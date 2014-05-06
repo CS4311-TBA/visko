@@ -41,7 +41,7 @@ public class Access {
     			result = rst.getString(column);
 			}
     		
-    		con.close();
+    		
         }
         catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -86,7 +86,7 @@ public class Access {
     			result = rst.getString(column);
 			}
     		
-    		con.close();
+    		
         }
         catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -132,7 +132,7 @@ public class Access {
     			result = rst.getString("MAX("+column+")");
 			}
     		
-    		con.close();
+    		
         }
         catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -176,7 +176,7 @@ public class Access {
 	 			result = rst.getString("MAX("+column+")");
 				}
 	 		
-	 		con.close();
+	 		
 	     }
 	     catch(SQLException s){
 	     	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -210,7 +210,6 @@ public class Access {
 			Statement stmt = con.createStatement();
 			result = stmt.executeQuery(queryString);
 			
-			con.close();
     	}
     	catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -269,7 +268,7 @@ public class Access {
 	        call.execute(queryString);
 	        success = true;
 	        
-	        con.close();
+	        
     	}
         catch(SQLException sqle)
         {
@@ -331,7 +330,7 @@ WHERE some_column=some_value;
 	        call.execute(queryString);
 	        success = true;
 	        
-	        con.close();
+	        
         }
         catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
