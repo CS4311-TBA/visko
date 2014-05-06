@@ -9,8 +9,31 @@
     <%@ page import ="java.sql.*" %>
     
     <%
-    	boolean formSubmitted = Boolean.parseBoolean( request.getParameter("fSubmitted") );
+	    boolean formSubmitted = Boolean.parseBoolean( request.getParameter("fSubmitted") );
+    	boolean toggleSubmitted = Boolean.parseBoolean( request.getParameter("toggleSubmitted") );
+    	Access aDB = new Access();
 	    ResultSet rst = null;
+	    
+	    
+	    if( toggleSubmitted )
+	    {
+	    	String s = request.getParameter("userStatus");
+	    	String id = request.getParameter("Usid");
+	    	
+	    	
+	    	if( s.equalsIgnoreCase("0") )
+	    	{
+	    		aDB.updateDB("Users", "Ustatus", "1", "Usid", id);
+	    	}	
+	    	else
+	    	{
+	    		aDB.updateDB("Users", "Ustatus", "0", "Usid", id);
+	    	}
+	    	
+	    }
+	    
+	    
+	    
     
 	    if( formSubmitted )
     	{
@@ -158,8 +181,6 @@
     		{
     			constraints += "Ufirstname IS NOT NULL );";
     		}
-    		
-    		Access aDB = new Access();
     		
     		rst = aDB.selectResultSet("Users", "*", constraints);
     		
@@ -330,13 +351,17 @@
 
                     while( rst.next() )
                     {
-                        String html = "<tr align='center'><td>" + rst.getString("Utime") + "</td>" +
+                        String html = "<form id='toggleForm' method='post' class='form-horizontal'>" +
+                        	"<tr align='center'><td>" + rst.getString("Utime") + "</td>" +
                             "<td>" + rst.getString("Ustatus") + "</td>" +
                             "<td>" + rst.getString("Ufirstname") + "</td>" + 
                             "<td>" + rst.getString("Ulastname") + "</td>" + 
                             "<td>" + rst.getString("Uorganization") + "</td>" + 
-                            "<td>" + "<button id=\"toggleButton\" name=\"toggleButton\" type=\"button\" class=\"btn btn-info\">Toggle</button>" + "</td>" + 
-                            "</tr>";
+                            "<input type='hidden' name='userID' id='userID' value='"+rst.getString("Usid") +"'>" +
+                            "<input type='hidden' name='userStatus' id='userStatus' value='"+rst.getString("Ustatus") +"'>" +
+                            "<input type='hidden' name='toggleSubmitted' id='toggleSubmitted' value='true'>" +
+                            "<td>" + "<button id='toggleButton' name='toggleButton' type='submit' class='btn btn-info'>Toggle</button>" + "</td>" + 
+                            "</tr></form>";
                         out.println( html );
                     }
 
