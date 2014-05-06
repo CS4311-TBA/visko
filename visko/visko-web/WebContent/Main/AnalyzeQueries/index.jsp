@@ -240,7 +240,7 @@
           
           
           
-    	      <textarea rows="4" cols="50">
+    	      <textarea rows="10" cols="150">
 				<% out.write(dupString[posString]);%>
 			  </textarea>
 			
