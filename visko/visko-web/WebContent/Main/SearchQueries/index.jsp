@@ -219,11 +219,45 @@
 
     </style>
 
-    <script>
+    <script type="text/javascript">
+    
+    	$( document ).ready(function() 
+    	{
+    		$("#queryText").on('keyup paste', function() 
+    		{
+    			var element = this;
+				setTimeout(function () 
+				{
+					var queryString = $(element).val();
+					$.post("/visko-web/ViskoServletManager",{type:queryCheck,query:queryString},
+						function(result) 
+						{
+				                //alert("Data Loaded: " + result);
+				        	if( result == "true" )
+		            		{
+		            			$("#warning").html( "<p style='color:green'>Query is valid.</p>");
+		            			$("#submitButton").attr("disabled",false);
+		            		}
+		            		else
+		            		{
+		            			$("#warning").html( "<p style='color:red'>Invalid query.</p>" );
+		            			$("#submitButton").attr("disabled",true);
+		            		}
+				        }
+					);	
+				}, 0);
+			});
+ 	   });
+    
       $(function() {
         $( "#startDate" ).datepicker();
         $("#endDate").datepicker();
       });
+      
+      
+      
+      
+      
     </script>
 
 

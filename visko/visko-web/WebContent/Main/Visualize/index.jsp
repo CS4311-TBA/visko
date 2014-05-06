@@ -23,7 +23,7 @@
 			 var element = this;
 			setTimeout(function () {
 				var queryString = $(element).val();
-				 $.post("/visko-web/ViskoServletManager",{query:queryString},
+				 $.post("/visko-web/ViskoServletManager",{requestType:'queryCheck',query:queryString},
 				          function(result) {
 				                //alert("Data Loaded: " + result);
 				           if( result == "true" )
