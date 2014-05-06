@@ -210,6 +210,7 @@ public class Access {
 			Statement stmt = con.createStatement();
 			result = stmt.executeQuery(queryString);
 			
+			con.commit();
 			con.close();
     	}
     	catch(SQLException s){
