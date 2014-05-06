@@ -60,6 +60,7 @@
      		
           } 
           
+			/**
 			ResultSet nCount = null;
 			
 			countResult = aDB.selectResultSet("Error", "distinct Edetail", "Edetail IS NOT NULL;");
@@ -75,7 +76,7 @@
 				System.out.println(errors.get(i));	
 			}
 			out.write("<input type = \"hidden\" name =\"Qid\" id = \"count\" value = '"+newCount+"'>");
-			
+			**/
           
           
           %>
@@ -186,7 +187,7 @@
 <script type="text/javascript">
          $(document).ready(function(){
 	var c1 = $("#count").val()
-    var s1 = [c1, 0, 00, 0];
+    var s1 = [10, 0, 00, 0];
     var s2 = [0, 0, 0, 0];
     var s3 = [0, 0, 0, 0];
     // Can specify a custom tick Array.
@@ -205,9 +206,9 @@
         // option on the series option.  Here a series option object
         // is specified for each series.
         series:[
-            {label:'Errors'},
-            {label:'Failures'},
-            {label:'Successful'}
+            {label:' '},
+            {label:' '},
+            {label:' '}
         ],
         // Show the legend and put it outside the grid, but inside the
         // plot container, shrinking the grid to accomodate the legend.
@@ -227,7 +228,7 @@
             // not touch, the grid boundaries.  1.2 is the default padding.
             yaxis: {
                 pad: 1.05,
-                tickOptions: {formatString: '$%d'}
+                tickOptions: {formatString: '%d'}
             }
         }
     });
