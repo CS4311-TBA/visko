@@ -4,6 +4,7 @@
     <title>Visko</title>
 
     <%@ include file="../includePage/header.jsp" %>
+    <%@ include file="../includePage/footer.jsp" %>
 
         <!-- Bootstrap core CSS -->
     <link href="/visko-web/Main/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -29,9 +30,12 @@
         <%  ResultSet queryResult = null;
     		ResultSet queryErrorResult = null;
     		ResultSet errorResult = null;
+    		ResultSet countResult = null;
+    		int newCount = 0;
     		Access aDB = new Access();
-			queryResult = aDB.selectResultSet("Query", "*", "Qstatus IS NOT NULL");        
+			queryResult = aDB.selectResultSet("Query", "*", "Qstatus IS NOT NULL;");        
         	int total = 0;
+        	
         	List<String> aType = new ArrayList<String>();
         	List<String> aViewSet = new ArrayList<String>();
         	List<String> aFormat = new ArrayList<String>();
@@ -40,12 +44,13 @@
         while( queryResult.next() )
           {
           	total++;
-      		String Eid = aDB.selectDB("QueryError", "Eid", "Qid = '"+queryResult.getString("Qid")+"'");
+      		String Eid = aDB.selectDB("QueryError", "Eid", "Qid = '"+queryResult.getString("Qid")+"';");
       		String getAbs = queryResult.getString("Qtype");
       		String getViewSet = queryResult.getString("QviewerSet");
       		String getFormat = queryResult.getString("QtargetType");
       		String getString = queryResult.getString("Qstring");
       		
+      	
       		String errorMessage;
       		
      		aType.add(getAbs);
@@ -53,22 +58,28 @@
      		aFormat.add(getFormat);
      		aString.add(getString);
      		
-     		
-      		if(Eid != null)
-      			errorMessage = aDB.selectDB("Error", "Edetail", "Eid = '"+Eid+"'");
-      		else
-      			errorMessage = "No Error";
-      			
-          	/**
-              String html = "<tr align='center'><td>" + queryResult.getString("Qid") + "</td>" +
-          		"<td>" + queryResult.getString("Qusername") + "</td>" +
-                  "<td>" + queryResult.getString("Qtime") + "</td>" +
-                	"<td>" + errorMessage + "</td>" +
-                  "<td>" + "<button id=\"detailButton\" name=\"detailButton\" type=\"button\" class=\"btn btn-info\">Details</button>" + "</td>" +
-                  "</tr>";
-              out.println( html );
-              **/
-          } %>
+          } 
+          
+			ResultSet nCount = null;
+			
+			countResult = aDB.selectResultSet("Error", "distinct Edetail", "Edetail IS NOT NULL;");
+
+			List<Integer> errors = new ArrayList<Integer>();
+			while( countResult.next()){
+				nCount = aDB.selectResultSet("Error", "count(*)", "Edetail = '"+countResult.getString("Edetail")+"';");
+				errors.add(nCount.getInt(1));
+
+			}
+
+			for(int i = 0; i < errors.size(); i++){
+				System.out.println(errors.get(i));	
+			}
+			out.write("<input type = \"hidden\" name =\"Qid\" id = \"count\" value = '"+newCount+"'>");
+			
+          
+          
+          %>
+          
           
           <%     
           
@@ -144,7 +155,7 @@
           for(int i = 0; i < aViewSet.size(); i++){
         	  
         	  System.out.println("String : " + aString.get(i));
-        	  dupView[i] = aString.get(i);
+        	  dupString[i] = aString.get(i);
         	  String temp = dupString[i];
         	  if(temp.equals(dupString[i])){
         		  popString++;
@@ -161,10 +172,67 @@
  			<p>   - Most Popular Input Format: <% out.write("-- " + dupFormat[posFormat] + " --"); %> </p>
 			<p>   - Most Popular Output Format: -- format --</p>
           <br>
-          <h4>Frequency of pipeline Errors</h4>
+          <h4>Frequency of Query Errors</h4>
           
           <br>
-          <p>--GRAPH GOES HERE--</p>
+	    <script type="text/javascript" src="/visko-web/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="/visko-web/jquery/jquery.jqplot.min.js"></script>
+		<script type="text/javascript" src="/visko-web/plugins/jqplot.barRenderer.min.js"></script>
+		<script type="text/javascript" src="/visko-web/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+		<script type="text/javascript" src="/visko-web/plugins/jqplot.pointLabels.min.js"></script>
+		<link rel="stylesheet" type="text/css" hrf="/visko-web/jquery/jquery.jqplot.min.css" />
+
+<div id="chart1" style="height:600px;width:800px; ">
+<script type="text/javascript">
+         $(document).ready(function(){
+	var c1 = $("#count").val()
+    var s1 = [c1, 0, 00, 0];
+    var s2 = [0, 0, 0, 0];
+    var s3 = [0, 0, 0, 0];
+    // Can specify a custom tick Array.
+    // Ticks should match up one for each y value (category) in the series.
+    var ticks = [' ', ' ', ' ', '   '];
+     
+    var plot1 = $.jqplot('chart1', [s1, s2, s3], {
+        // The "seriesDefaults" option is an options object that will
+        // be applied to all series in the chart.
+        seriesDefaults:{
+            renderer:$.jqplot.BarRenderer,
+            rendererOptions: {fillToZero: true}
+        },
+    
+        // Custom labels for the series are specified with the "label"
+        // option on the series option.  Here a series option object
+        // is specified for each series.
+        series:[
+            {label:'Errors'},
+            {label:'Failures'},
+            {label:'Successful'}
+        ],
+        // Show the legend and put it outside the grid, but inside the
+        // plot container, shrinking the grid to accomodate the legend.
+        // A value of "outside" would not shrink the grid and allow
+        // the legend to overflow the container.
+        legend: {
+            show: true,
+            placement: 'outsideGrid'
+        },
+        axes: {
+            // Use a category axis on the x axis and use our custom ticks.
+            xaxis: {
+                renderer: $.jqplot.CategoryAxisRenderer,
+                ticks: ticks
+            },
+            // Pad the y axis just a little so bars can get close to, but
+            // not touch, the grid boundaries.  1.2 is the default padding.
+            yaxis: {
+                pad: 1.05,
+                tickOptions: {formatString: '$%d'}
+            }
+        }
+    });
+});</script>
+</div>
           <br>
           
           <h4>Most Popular Query</h4>
