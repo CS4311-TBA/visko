@@ -18,7 +18,7 @@
 	    if( toggleSubmitted )
 	    {
 	    	String s = request.getParameter("userStatus");
-	    	String id = request.getParameter("Usid");
+	    	String id = request.getParameter("userID");
 	    	
 	    	
 	    	if( s.equalsIgnoreCase("0") )

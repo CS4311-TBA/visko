@@ -26,7 +26,9 @@
 	if( session.getAttribute("user") != null )
 	{
 		User curUser = (User)session.getAttribute("user");	
-		out.println(   
+		if( curUser.getStatus() == 1 )
+		{
+			out.println(   
 					"<div class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">" +
 				      "<div class=\"container-fluid\"> " +
 				        "<div class=\"navbar-header\"> " +
@@ -48,6 +50,11 @@
 				    "</div>"
 
 			);
+		}
+		else
+		{
+			response.sendRedirect( "/visko-web/Main/suspended.jsp" );	
+		}
 	}
 	else{
 		response.sendRedirect( "/visko-web/Main/" );
