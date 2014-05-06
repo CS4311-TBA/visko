@@ -169,9 +169,11 @@ public class ViskoServletManager extends HttpServlet {
 			boolean passed = query.isValidQuery();
 			response.getWriter().write(""+passed);
 		}
-		else if( requestType.equalsIgnoreCase("queryText") )
+		else if( requestType.equalsIgnoreCase("getQueryText") )
 		{
-			
+			Access access = new Access();
+			String queryText = access.selectDB("Query", "Qstring", "Qid = "+request.getParameter("queryID") );
+			response.getWriter().write(queryText);
 		}
 		
 	}

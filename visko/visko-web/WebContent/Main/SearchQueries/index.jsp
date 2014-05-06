@@ -221,43 +221,20 @@
 
     <script type="text/javascript">
     
-    	$( document ).ready(function() 
-    	{
-    		$("#queryText").on('keyup paste', function() 
-    		{
-    			var element = this;
-				setTimeout(function () 
-				{
-					var queryString = $(element).val();
-					$.post("/visko-web/ViskoServletManager",{type:queryCheck,query:queryString},
-						function(result) 
-						{
-				                //alert("Data Loaded: " + result);
-				        	if( result == "true" )
-		            		{
-		            			$("#warning").html( "<p style='color:green'>Query is valid.</p>");
-		            			$("#submitButton").attr("disabled",false);
-		            		}
-		            		else
-		            		{
-		            			$("#warning").html( "<p style='color:red'>Invalid query.</p>" );
-		            			$("#submitButton").attr("disabled",true);
-		            		}
-				        }
-					);	
-				}, 0);
-			});
- 	   });
+	    function buttonClick( id )
+	    {
+	        $.post("/visko-web/ViskoServletManager",{requestType:'getQueryText',queryID:id},
+	            function(result) 
+	            {       
+	                $("#queryText").html( "<textarea style='width: 989px; height: 200px;' id='queryTextArea' name='query'>"+result+"</textarea>");   
+	            }
+	        );  
+	    }
     
-      $(function() {
-        $( "#startDate" ).datepicker();
-        $("#endDate").datepicker();
-      });
-      
-      
-      
-      
-      
+		$(function() {
+       		$( "#startDate" ).datepicker();
+        	$("#endDate").datepicker();
+    	});
     </script>
 
 
@@ -395,6 +372,12 @@
 
 
         </div>
+        
+        <div class="row">
+        	<div id="queryText" class="col-md-10">
+
+        	</div>
+        </div>
 
 		<%
 			Access access = new Access();
@@ -426,11 +409,11 @@
             		request.getSession().setAttribute("Qid", queryResult.getString("Qid"));
             		request.getSession().setAttribute("Eid", Eid);
                 	
-                    String html = "<form action=\"ViewDetails.jsp\"><tr align='center'><td>" + queryResult.getString("Qid") + "</td>" +
+                    String html = "<tr align='center'><td>" + queryResult.getString("Qid") + "</td>" +
                 		"<td>" + queryResult.getString("Qusername") + "</td>" +
                         "<td>" + queryResult.getString("Qtime") + "</td>" +
                       	"<td>" + errorMessage + "</td>" +
-                        "<td>" + "<a class=\"btn btn-info\"  role=\"submit\">Details</a>" + "</td>" +
+                        "<td>" + "<a class=\"btn btn-info\" id='"+ queryResult.getString("Qid") +"' role=\"button\" onclick='buttonClick("+ queryResult.getString("Qid") +")'>Details</a>" + "</td>" +
                         "</tr><form>";
                     out.println( html );
                 }
