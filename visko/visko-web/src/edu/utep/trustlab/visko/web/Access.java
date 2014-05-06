@@ -40,6 +40,8 @@ public class Access {
     		if(!rst.wasNull()){
     			result = rst.getString(column);
 			}
+    		
+    		con.close();
         }
         catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -83,6 +85,8 @@ public class Access {
     		if(!rst.wasNull()){
     			result = rst.getString(column);
 			}
+    		
+    		con.close();
         }
         catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -127,6 +131,8 @@ public class Access {
     		if(!rst.wasNull()){
     			result = rst.getString("MAX("+column+")");
 			}
+    		
+    		con.close();
         }
         catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -169,6 +175,8 @@ public class Access {
 	 		if(!rst.wasNull()){
 	 			result = rst.getString("MAX("+column+")");
 				}
+	 		
+	 		con.close();
 	     }
 	     catch(SQLException s){
 	     	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -201,6 +209,8 @@ public class Access {
 			
 			Statement stmt = con.createStatement();
 			result = stmt.executeQuery(queryString);
+			
+			con.close();
     	}
     	catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -212,7 +222,7 @@ public class Access {
         catch(Exception e){
         	System.out.println("Error: " + e.getMessage());
         }
-    	
+ 
 		return result;
     }
     
@@ -257,6 +267,8 @@ public class Access {
 	        Statement call = con.createStatement();
 	        call.execute(queryString);
 	        success = true;
+	        
+	        con.close();
     	}
         catch(SQLException sqle)
         {
@@ -317,6 +329,8 @@ WHERE some_column=some_value;
     		Statement call = con.createStatement();
 	        call.execute(queryString);
 	        success = true;
+	        
+	        con.close();
         }
         catch(SQLException s){
         	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
