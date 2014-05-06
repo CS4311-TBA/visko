@@ -42,7 +42,7 @@
       		String Eid = aDB.selectDB("QueryError", "Eid", "Qid = '"+queryResult.getString("Qid")+"'");
       		String getAbs = queryResult.getString("Qtype");
       		String getViewSet = queryResult.getString("QviewerSet");
-      		String getFormat = queryResult.getString("QinputUrl");
+      		String getFormat = queryResult.getString("QtargetType");
       		
       		String errorMessage;
       		
@@ -79,9 +79,13 @@
         	  if(aViewSet.get(i).equals("null")){
         		  aViewSet.remove(i);
         	  }
+        	  
           }
           for(int i = 0; i < aFormat.size();i++){
         	  if(aFormat.get(i).equals("null")){
+        		  aFormat.remove(i);
+        	  }
+        	  if(aFormat.get(i).equals("url")){
         		  aFormat.remove(i);
         	  }
           }
@@ -94,7 +98,7 @@
           int popType = 0;
           int posType = 0;
           for(int i = 0; i < aType.size(); i++){
-        	  System.out.println("type : " + dupType[i]);
+        	  
         	  System.out.println("type : " + aType.get(i));
         	  dupType[i] = aType.get(i);
         	  String temp = dupType[i];
@@ -108,7 +112,7 @@
           int popView = 0;
           int posView = 0;
           for(int i = 0; i < aViewSet.size(); i++){
-        	  System.out.println("View : " + dupView[i]);
+        	  
         	  System.out.println("View : " + aViewSet.get(i));
         	  dupView[i] = aViewSet.get(i);
         	  String temp = dupView[i];
@@ -122,18 +126,14 @@
           int popFormat = 0;
           int posFormat = 0;
           for(int i = 0; i < aFormat.size(); i++){
-        	  System.out.println("View : " + aFormat.get(i));
-        	  System.out.println("format : " + dupFormat[i]);
+        	  System.out.println("Format : " + aFormat.get(i));
+        	  
         	  dupFormat[i] = aFormat.get(i);
         	  String temp = dupFormat[i];
         	  if(temp.equals(dupFormat[i])){
         		  popFormat++;
         		  posFormat = i;
           		}
-        	  else{
-        		  posFormat = 0;
-        		  popFormat = 0;
-        	  }
           	}
 
 			%>
