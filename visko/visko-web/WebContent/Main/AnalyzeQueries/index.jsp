@@ -35,6 +35,7 @@
         	List<String> aType = new ArrayList<String>();
         	List<String> aViewSet = new ArrayList<String>();
         	List<String> aFormat = new ArrayList<String>();
+        	List<String> aString = new ArrayList<String>();
         	
         while( queryResult.next() )
           {
@@ -43,13 +44,14 @@
       		String getAbs = queryResult.getString("Qtype");
       		String getViewSet = queryResult.getString("QviewerSet");
       		String getFormat = queryResult.getString("QtargetType");
+      		String getString = queryResult.getString("Qstring");
       		
       		String errorMessage;
       		
      		aType.add(getAbs);
      		aViewSet.add(getViewSet);
      		aFormat.add(getFormat);
-     		
+     		aString.add(getString);
      		
      		
       		if(Eid != null)
@@ -93,7 +95,7 @@
           String [] dupType = new String[aType.size()];
           String [] dupView = new String[aViewSet.size()];
           String [] dupFormat = new String[aFormat.size()];
-          
+          String [] dupString = new String[aString.size()];
           
           int popType = 0;
           int posType = 0;
@@ -135,6 +137,21 @@
         		  posFormat = i;
           		}
           	}
+          
+
+          int popString = 0;
+          int posString = 0;
+          for(int i = 0; i < aViewSet.size(); i++){
+        	  
+        	  System.out.println("String : " + aString.get(i));
+        	  dupView[i] = aString.get(i);
+        	  String temp = dupString[i];
+        	  if(temp.equals(dupString[i])){
+        		  popString++;
+        		  posString = i;
+          		}
+          	}
+
 
 			%>
         
@@ -155,7 +172,7 @@
           
           
     	      <textarea rows="4" cols="50">
-				--QUERY TEXT--
+				<% out.write(dupString[posString]);%>
 			  </textarea>
 			
 			
