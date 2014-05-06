@@ -392,7 +392,7 @@
 		                    ResultSet visResult = access.selectResultSet("Visualization", "*", "Qid = '"+queryResult.getString("Qid")+"' AND Pid = '"+pipeResult.getString("Pid")+"'");
 		                    visResult.first();
 		                    
-		                    String html = "<form action=\"/visko-web/Main/SearchHistory/ViewDetails.jsp\"><tr align='center'>" +
+		                    String html = "<form action=\"\\visko-web\\Main\\SearchHistory\\ViewDetails.jsp\"><tr align='center'>" +
 		                    	"<td>" + visResult.getString("Vid") + "</td>" +
 		                		"<td>" + queryResult.getString("Qusername") + "</td>" +
 		                        "<td>" + visResult.getString("Vtime") + "</td>" +
@@ -400,7 +400,7 @@
 		                        "<input type=\"hidden\" name=\"Pid\" id=\"Pid\" value="+pipeResult.getString("Pid")+">" +
 		                        "<input type=\"hidden\" name=\"Vid\" id=\"Vid\" value="+visResult.getString("Vid")+">" +
 		                        "<td>" + "<a class=\"btn btn-info\"  role=\"submit\">Details</a>" + "</td>" +
-		                        "</tr><form>";
+		                        "</tr></form>";
 		                    out.println( html );
 	            		}
                 	}
