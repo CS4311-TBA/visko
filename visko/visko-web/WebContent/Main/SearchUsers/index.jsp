@@ -262,7 +262,7 @@
                		 <select class="form-control" name="affiliation">
                         <option value="*">Any</option>
                       <%
-                      	Access aDB = new Access();
+                      	aDB = new Access();
                     	ResultSet rs = aDB.selectResultSet("Users", "DISTINCT Uorganization", "Uorganization IS NOT NULL");
                     	
                     	while( rs.next() )
