@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import ="java.sql.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="edu.utep.trustlab.visko.web.*" %>
 
@@ -16,55 +15,39 @@
   String nEmail = request.getParameter("newEmail");
   String nPass = request.getParameter("newPass");
 
-  try
-  {
-    
-    // set connection
-    Class.forName("com.mysql.jdbc.Driver");
-    Connection con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA");
-
+	Access access = new Access();
+	
     if( cEmail && cPass )
     {
     	nEmail = nEmail.toLowerCase();
-      //need to check if new email is already being used
-
-      Statement st1 = con.createStatement();
-
-      st1.executeUpdate("UPDATE Users SET Uemail='" + nEmail
-      + "', Upassword='"+ nPass +"' WHERE Uemail='"
-      + cUser.getEmail() +"';");
-
-      cUser.setEmail(nEmail);
-      cUser.setPass(nPass);
-      session.setAttribute("user", cUser);
-      warning = "<p style='color:green'>Email and Password updated successfully.</p>";
+    	
+    	//need to check if new email is already being used
+    	access.updateDB("Users", "Uemail", nEmail, "Uemail", cUser.getEmail());
+    	access.updateDB("Users", "Upassword", nPass, "Uemail", cUser.getEmail());
+    	
+    	cUser.setEmail(nEmail);
+    	cUser.setPass(nPass);
+    	session.setAttribute("user", cUser);
+    	warning = "<p style='color:green'>Email and Password updated successfully.</p>";
 
     }
     else if ( cEmail && !cPass ) //Change email only
     {
 
     	nEmail = nEmail.toLowerCase();
-      //need to check if new email is already being used
 
-      Statement st1 = con.createStatement();
+        access.updateDB("Users", "Uemail", nEmail, "Uemail", cUser.getEmail());
 
-      st1.executeUpdate("UPDATE Users SET Uemail='" + nEmail 
-      + "' WHERE Uemail='" + cUser.getEmail() +"';");
-
-      cUser.setEmail(nEmail);
-      session.setAttribute("user", cUser);
-      warning = "<p style='color:green'>Email updated successfully.</p>";
+        cUser.setEmail(nEmail);
+        session.setAttribute("user", cUser);
+        warning = "<p style='color:green'>Email updated successfully.</p>";
 
 
     }
     else if ( !cEmail && cPass ) //change password only
     {
       //need to check if new email is already being used
-
-      Statement st1 = con.createStatement();
-
-      st1.executeUpdate("UPDATE Users SET Upassword='"+ nPass +"' WHERE Uemail='"
-      + cUser.getEmail() +"';");
+      access.updateDB("Users", "Upassword", nPass, "Uemail", cUser.getEmail());
 
       cUser.setPass(nPass);
       session.setAttribute("user", cUser);
@@ -73,15 +56,7 @@
     else
     {
         //Do nothing
-    }  
-  }
-  catch(SQLException sq)
-  {
-    warning = "<p style='color:red'>Error connecting to SQL database: " + sq.getMessage() + "</p>";
-  }
-  catch(Exception e){
-    warning = "<p style='color:red'>Error: " + e.getMessage() + "</p>";
-  }
+    }
 %>
 
 

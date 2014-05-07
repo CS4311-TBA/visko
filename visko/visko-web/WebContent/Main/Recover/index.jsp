@@ -1,12 +1,15 @@
 <%@ page import="javax.mail.*"%>
 <%@ page import="javax.mail.internet.*"%>
 <%@ page import="java.util.*"%>
-<%@ page import ="java.sql.*" %>
 <%@ page import="java.io.*" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="edu.utep.trustlab.visko.web.*" %>
 <%
 
    boolean submitted = Boolean.parseBoolean( request.getParameter("formSubmitted") );
    String result = "";
+   
+   Access access = new Access();
 
    if( submitted )
    {
@@ -14,35 +17,20 @@
       String email = request.getParameter("email");
       email = email.toLowerCase();
       boolean changePass = false;
-      try
+
+         
+      int rst = access.selectCount("Users", "*", "Uemail='" + email + "'");
+
+      if( rst >= 1 )
       {
-         //check if email is in database, if not show error mesage
-         Class.forName("com.mysql.jdbc.Driver");
-         Connection con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
-
-         //check if email is being used
-         String queryString = "SELECT COUNT(*) FROM Users WHERE Uemail='" + email + "';";
-
-         Statement stmt = con.createStatement();
-         ResultSet rst = stmt.executeQuery(queryString);
-
-         rst.next();
-         if( rst.getInt(1) >= 1 )
-         {
-            changePass = true;
-         }
-         else
-         {
-            changePass = false;
-            result = "<p style='color:red'>No account found with that email address</p>";
-         }
+         changePass = true;
       }
-      catch(SQLException s){
-         result = "<p style='color:red'>Error connecting to SQL Database: "+ s.getMessage() + "</p>";
+      else
+      {
+         changePass = false;
+         result = "<p style='color:red'>No account found with that email address</p>";
       }
-      catch(Exception e){
-         result = "<p style='color:red'>Error: " + e.getMessage() + "</p>";
-      }
+
 
 
       if( changePass )
@@ -61,27 +49,9 @@
             int index = (int)(RANDOM.nextDouble()*letters.length());
             pw += letters.substring(index, index+1);
          }
-
-
-         try
-         {
-            // set connection
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA");
-
-            Statement st1 = con.createStatement();
-            st1.executeUpdate("UPDATE Users SET Upassword='"+ pw +"' WHERE Uemail='"
-            + email +"';");
-            updatedDB = true;
-         }
-         catch(SQLException sq)
-         {
-            result = "<p style='color:red'>Error connecting to SQL database: " + sq.getMessage() + "</p>";
-         }
-         catch(Exception e){
-            result = "<p style='color:red'>Error: " + e.getMessage() + "</p>";
-         }  
-
+         
+         access.updateDB("Users", "Upassword", pw, "Uemail", email);       
+         updatedDB = true;             
 
          if( updatedDB )
          {

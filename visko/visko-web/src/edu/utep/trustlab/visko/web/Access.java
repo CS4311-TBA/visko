@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.StringTokenizer;
 
 public class Access {
+	
+	Database DB = new Database();
 
 	public Access()
 	{
@@ -29,7 +31,7 @@ public class Access {
     	try{
     		
     		Class.forName("com.mysql.jdbc.Driver");
-    		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+    		con = DriverManager.getConnection(DB.getDatabaseUrl(),DB.getDatabaseUser(),DB.getDatabasePass()); 
 
     		String queryString = "SELECT "+column+" FROM "+table+";";
 
@@ -74,7 +76,7 @@ public class Access {
     	try{
     		
     		Class.forName("com.mysql.jdbc.Driver");
-    		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+    		con = DriverManager.getConnection(DB.getDatabaseUrl(),DB.getDatabaseUser(),DB.getDatabasePass()); 
 
     		String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
 
@@ -120,7 +122,7 @@ public class Access {
     	try{
     		
     		Class.forName("com.mysql.jdbc.Driver");
-    		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+    		con = DriverManager.getConnection(DB.getDatabaseUrl(),DB.getDatabaseUser(),DB.getDatabasePass()); 
 
     		String queryString = "SELECT MAX("+column+") FROM "+table+" WHERE "+constraint+";";
 
@@ -164,8 +166,8 @@ public class Access {
 	 	try{
 	 		
 	 		Class.forName("com.mysql.jdbc.Driver");
-	 		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
-	
+	 		con = DriverManager.getConnection(DB.getDatabaseUrl(),DB.getDatabaseUser(),DB.getDatabasePass()); 
+
 	 		String queryString = "SELECT MAX("+column+") FROM "+table+";";
 	
 	 		Statement stmt = con.createStatement();
@@ -177,6 +179,51 @@ public class Access {
 				}
 	 		
 	 		
+	     }
+	     catch(SQLException s){
+	     	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
+	     }
+	 	catch(ClassNotFoundException cnfe)
+	     {
+	     	System.out.println("Class Not Found Error: " + cnfe.getMessage());
+	     }
+	     catch(Exception e){
+	     	System.out.println("Error: " + e.getMessage());
+	     }
+	     return result; 
+	        
+	}
+	 
+	 /**
+	     * retrieve count of cell from column specified from the database
+	     * receives parameters:
+	     * table: String name of the database table to select from
+	     * column: String name of the column to select from
+	     * constraint: String containing value for select constraints
+	     * creates select statement: "SELECT COUNT("column") FROM "table" WHERE "constraint";"
+	     * returns: int count of specified column, or 0 if result was null
+	     */
+	 public int selectCount(String table, String column, String constraint){
+		    
+	 	int result = 0;
+	 	Connection con;
+	 	
+	 	try{
+	 		
+	 		Class.forName("com.mysql.jdbc.Driver");
+	 		con = DriverManager.getConnection(DB.getDatabaseUrl(),DB.getDatabaseUser(),DB.getDatabasePass()); 
+
+	 		String queryString = "SELECT COUNT("+column+") FROM "+table+" WHERE "+constraint+";";
+	
+	 		System.out.println(":"+queryString+":");//testing
+	 		
+	 		Statement stmt = con.createStatement();
+	 		ResultSet rst = stmt.executeQuery(queryString);
+	 		
+	 		rst.next();
+	 		if(!rst.wasNull()){
+	 			result = rst.getInt("COUNT("+column+")");
+			}
 	     }
 	     catch(SQLException s){
 	     	System.out.println("Error connecting to SQL Database: "+ s.getMessage());
@@ -209,8 +256,8 @@ public class Access {
     	try{
     		
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
-			
+			con = DriverManager.getConnection(DB.getDatabaseUrl(),DB.getDatabaseUser(),DB.getDatabasePass()); 
+
 			String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
 			
 			Statement stmt = con.createStatement();
@@ -251,8 +298,8 @@ public class Access {
     	try{
 	    	// set connection
 	        Class.forName("com.mysql.jdbc.Driver");
-	        con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
-	        
+	        con = DriverManager.getConnection(DB.getDatabaseUrl(),DB.getDatabaseUser(),DB.getDatabasePass()); 
+
 	        String queryString = "INSERT INTO "+table+" ("+columns+") VALUES (\""+insertValues[0]+"\"";
 	        if(items>1){
 	        	for (int i=1; i<items; i++){
@@ -321,7 +368,7 @@ public class Access {
     	try{
     		
     		Class.forName("com.mysql.jdbc.Driver");
-    		con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
+    		con = DriverManager.getConnection(DB.getDatabaseUrl(),DB.getDatabaseUser(),DB.getDatabasePass()); 
 
     		String queryString = "UPDATE "+table+" SET "+Ucolumn+"='"+Uvalue+"' WHERE "+Ccolumn+"='"+Cvalue+"';";
 
