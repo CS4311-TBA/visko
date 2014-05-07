@@ -12,26 +12,46 @@
 		
         try
         {
-
+        	String checkemail = aDB.selectDB("Users", "Uemail", "Uemail='"+request.getParameter("email").toLowerCase()+"'");
+        	if(checkemail != null){
+        		String checkpass = aDB.selectDB("Users", "Upassword", "Upassword='"+request.getParameter("password")+"'");
+        		if(checkpass != null){
+        			ResultSet rst = aDB.selectResultSet("Users", "*", "Uemail='"+request.getParameter("email").toLowerCase()+"' && Upassword='"+request.getParameter("password")+"'");
+                	User curUser = new User( rst );	
+        		       	
+        	       	if( ( !curUser.getEmail().equalsIgnoreCase("") || curUser.getEmail() != null ) &&
+        	       		( !curUser.getPass().equalsIgnoreCase("") || curUser.getPass() != null ) )
+        	       	{
+        	       		session.setAttribute("user", curUser);
+        	       		response.sendRedirect("/visko-web/Main/Home/");	
+        	       	}
+        	       	else
+        	       	{
+        	       		warning = "<p style='color:red'>Invalid Login.</p>";
+        	       	}
+        		}
+        		else{
+        			warning = "<p style='color:red'>Invalid Password.</p>";
+        		}
+        	}
+        	else{
+        		warning = "<p style='color:red'>Invalid Username.</p>";
+        	}
+		/*
         	ResultSet rst = aDB.selectResultSet("Users", "*", "Uemail='"+request.getParameter("email").toLowerCase()+"' && Upassword='"+request.getParameter("password")+"'");
-	       	if (rst.first()){
-	        	User curUser = new User( rst );
+        	User curUser = new User( rst );	
 		       	
-		       	if( ( !curUser.getEmail().equalsIgnoreCase("") || curUser.getEmail() != null ) &&
-		       		( !curUser.getPass().equalsIgnoreCase("") || curUser.getPass() != null ) )
-		       	{
-		       		session.setAttribute("user", curUser);
-		       		response.sendRedirect("/visko-web/Main/Home/");	
-		       	}
-		       	else
-		       	{
-		       		warning = "<p style='color:red'>Invalid Login.</p>";
-		       	}
+	       	if( ( !curUser.getEmail().equalsIgnoreCase("") || curUser.getEmail() != null ) &&
+	       		( !curUser.getPass().equalsIgnoreCase("") || curUser.getPass() != null ) )
+	       	{
+	       		session.setAttribute("user", curUser);
+	       		response.sendRedirect("/visko-web/Main/Home/");	
 	       	}
 	       	else
 	       	{
 	       		warning = "<p style='color:red'>Invalid Login.</p>";
 	       	}
+	       	*/
 	       			
        	}
        	catch(SQLException s){
