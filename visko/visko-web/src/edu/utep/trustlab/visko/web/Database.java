@@ -20,4 +20,19 @@ public class Database {
 	{
 		return password;
 	}
+	
+	public void setDatabaseUrl(String newUrl)
+	{
+		url = newUrl;
+	}
+	
+	public void  setDatabaseUser(String newUser)
+	{
+		user = newUser;
+	}
+	
+	public void  setDatabasePass(String newPass)
+	{
+		password = newPass;
+	}
 }
