@@ -14,13 +14,19 @@
         {
 
         	ResultSet rst = aDB.selectResultSet("Users", "*", "Uemail='"+request.getParameter("email").toLowerCase()+"' && Upassword='"+request.getParameter("password")+"'");
-	       	User curUser = new User( rst );
-	       	
-	       	if( ( !curUser.getEmail().equalsIgnoreCase("") || curUser.getEmail() != null ) &&
-	       		( !curUser.getPass().equalsIgnoreCase("") || curUser.getPass() != null ) )
-	       	{
-	       		session.setAttribute("user", curUser);
-	       		response.sendRedirect("/visko-web/Main/Home/");	
+	       	if (rst.first()){
+	        	User curUser = new User( rst );
+		       	
+		       	if( ( !curUser.getEmail().equalsIgnoreCase("") || curUser.getEmail() != null ) &&
+		       		( !curUser.getPass().equalsIgnoreCase("") || curUser.getPass() != null ) )
+		       	{
+		       		session.setAttribute("user", curUser);
+		       		response.sendRedirect("/visko-web/Main/Home/");	
+		       	}
+		       	else
+		       	{
+		       		warning = "<p style='color:red'>Invalid Login.</p>";
+		       	}
 	       	}
 	       	else
 	       	{
