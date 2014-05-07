@@ -37,21 +37,6 @@
         	else{
         		warning = "<p style='color:red'>Invalid Username.</p>";
         	}
-		/*
-        	ResultSet rst = aDB.selectResultSet("Users", "*", "Uemail='"+request.getParameter("email").toLowerCase()+"' && Upassword='"+request.getParameter("password")+"'");
-        	User curUser = new User( rst );	
-		       	
-	       	if( ( !curUser.getEmail().equalsIgnoreCase("") || curUser.getEmail() != null ) &&
-	       		( !curUser.getPass().equalsIgnoreCase("") || curUser.getPass() != null ) )
-	       	{
-	       		session.setAttribute("user", curUser);
-	       		response.sendRedirect("/visko-web/Main/Home/");	
-	       	}
-	       	else
-	       	{
-	       		warning = "<p style='color:red'>Invalid Login.</p>";
-	       	}
-	       	*/
 	       			
        	}
        	catch(SQLException s){
@@ -61,13 +46,6 @@
             warning = "<p style='color:red'>Error: " + e.getMessage() + "</p>";
         }
 	}
-	/* TESTING */
-	/*else{
-		session.setAttribute("email", "priv@gmail.com");
-		session.setAttribute("pass", "123");
-		session.setAttribute("priv", "2");
-		response.sendRedirect("/visko-web/Main/Home/");
-	}*/
 	
 %>
 

@@ -75,6 +75,7 @@ public class ParameterBindingsHTML {
 		return html;
 	}
 	
+	// New method used instead of the original method getParameterBindingsList()
 	public static String newGetParameterBindingsList(Pipeline pipe) {
 
 		HashMap<String, String> bindings = pipe.getParameterBindings();

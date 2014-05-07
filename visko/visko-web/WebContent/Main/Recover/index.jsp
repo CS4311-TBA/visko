@@ -190,7 +190,7 @@
                <h3>Forgot your password?</h3>
 
                <p>
-               To reset your password, enter the email address you use to sign in to Visko. This can be any email address associated with your account.
+               To reset your password, enter the email address you use to sign in to VisKo. This can be any email address associated with your account.
                </p>
 
                <label class="control-label" for="email">Email address</label>
@@ -204,7 +204,7 @@
                <br><br>
 
                <p class="secondary">
-               If you don't have a Visko Account, you can <a href="/visko-web/Registration/">create one now</a>
+               If you don't have a VisKo Account, you can <a href="/visko-web/Registration/">create one now</a>
                </p>
 
                <input type="hidden" name="formSubmitted" id="formSubmitted" value="true">

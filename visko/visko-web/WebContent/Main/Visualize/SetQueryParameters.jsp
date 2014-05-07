@@ -32,6 +32,7 @@
           <h3>Set Query Parameters</h3>
           <ul class="list-inline">
             <li><img src="/visko-web/Main/assets/img/<%= abstractionType %>.png" class="img-responsive" alt="Responsive image" width="200" height="200"></li>
+            <br>
             <li><p> <%= abstractionType %> <% String description = ""; %> 
             <%if (abstractionType.contains("1D_")){
             	description = "a linear representation of important events in the order in which they occurred";
@@ -106,11 +107,11 @@
               <li>
                 <select class="form-control" name="viewerSet" style="width: 500px"><%=o.getViewerSets()%>
               </select>
+              <br>
               </li>
-              <li><p><b>Viewer Sets</b> refers to programs that present the abstractions onto the screen, 
-	              	such as visualization specific software like ParaView or more generic applications like 
-	              	a Web browser that can display images in standard formats.
-	              </p>
+              <li><p><b>Viewer Sets</b> refers to programs that present the abstractions onto the screen,</p>
+	              <p>such as visualization specific software like ParaView or more generic applications like</p>
+	              <p>a Web browser that can display images in standard formats.</p>
               </li>
             <br>
               <li>

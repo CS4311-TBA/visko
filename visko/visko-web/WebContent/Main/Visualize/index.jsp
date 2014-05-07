@@ -14,18 +14,13 @@
     
     <script type="text/javascript">
     
-    $( document ).ready(function() {
-    	
-    	
-    	
-		$("#queryText").on('keyup paste', function() {
-			
+    $( document ).ready(function() {	
+		$("#queryText").on('keyup paste', function() {			
 			 var element = this;
 			setTimeout(function () {
 				var queryString = $(element).val();
 				 $.post("/visko-web/ViskoServletManager",{requestType:'queryCheck',query:queryString},
 				          function(result) {
-				                //alert("Data Loaded: " + result);
 				           if( result == "true" )
 		            		{
 		            			$("#warning").html( "<p style='color:green'>Query is valid.</p>");
@@ -36,38 +31,9 @@
 		            			$("#warning").html( "<p style='color:red'>Invalid query.</p>" );
 		            			$("#submitButton").attr("disabled",true);
 		            		}
-				         });
-				/*
-				$.ajax({
-					type: "POST", 
-		            url : '/visko-web/ViskoServletManager',
-		            dataType : 'text',
-		            data : "query="+queryString,
-		            cache : false, // guarantees jsp is always called
-		            success: function(result)
-		            {
-		            	alert("RESULT: " + result);
-		            	if( result == "true" )
-		            	{
-		            		$("#warning").html( "<p style='color:green'>Query is valid.</p>");	
-		            	}
-		            	else
-		            	{
-		            		$("#warning").html( "<p style='color:red'>Invalid query.</p>" );
-		            	}
-		            }
-		       });
-				*/
-				
+				         });			
 			}, 0);
-			
-			
-			
-			
 		});
-		
-		
-		
     });
     
     </script>

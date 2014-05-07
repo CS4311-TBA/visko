@@ -28,20 +28,6 @@
     		
     		String constraints = "(";
     		boolean conAdded = false;
-
-            /*
-            if( email == null || email.equalsIgnoreCase("") )
-            {
-                out.println("<br><br><br><br><br><br><div class='col-md-10 col-md-offset-2'><div class='container'><div class='row'>email: ( NULL OR EMPTY )</div></div></div>");
-            }
-            else
-            {
-                out.println("<br><br><br><br><br><br><div class='col-md-10 col-md-offset-2'><div class='container'><div class='row'>email: (" + email + ")</div></div></div>");
-            }
-            */
-
-
-            
     		
     		if( !abstraction.equalsIgnoreCase("") && abstraction != null )
     		{

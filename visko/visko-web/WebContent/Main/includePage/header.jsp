@@ -14,14 +14,7 @@
 	<!-- Bootstrap core CSS -->
     <link href="/visko-web/Main/assets/css/bootstrap.min.css" rel="stylesheet">
 
-	<%
-	//check session variables are set
-	/*
-	if( session.getAttribute("email") != null &&
-		session.getAttribute("pass") != null )
-	{
-		*/
-		
+	<%	
 		
 	if( session.getAttribute("user") != null )
 	{

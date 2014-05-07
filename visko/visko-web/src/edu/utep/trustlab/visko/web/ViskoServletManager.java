@@ -69,17 +69,15 @@ public class ViskoServletManager extends HttpServlet {
 		{
 			response.getWriter().write("<html><body><p>Invalid argument specified for <b>requestType</b></body></html>");
 		}
-		else if( requestType.equalsIgnoreCase("ERIK_TEST") )
-		{
-			request.setAttribute("TEST", "THIS IS FROM THE SERVLET");
-			request.getRequestDispatcher("Main/Visualize/SelectPipelines.jsp").forward(request, response);
-		}
+		//else if( requestType.equalsIgnoreCase("ERIK_TEST") )
+		//{
+		//	request.setAttribute("TEST", "THIS IS FROM THE SERVLET");
+		//	request.getRequestDispatcher("Main/Visualize/SelectPipelines.jsp").forward(request, response);
+		//}
 		else if( requestType.equalsIgnoreCase("REDIRECT") )
 		{			
 			request.getSession().setAttribute("re", "REDIRECT IN SERVLET");
 			response.sendRedirect("Main/SelectPipelines.jsp");
-			//HttpServletResponse.sendRedirect("/your/new/location.jsp");
-			//request.getRequestDispatcher("Main/Visualization.jsp");
 		}
 		else if( requestType.equalsIgnoreCase("new-execute-query") )
 		{
@@ -111,9 +109,6 @@ public class ViskoServletManager extends HttpServlet {
 		else if( requestType.equalsIgnoreCase("new-execute-pipeline") )
 		{
 			new ExecutePipelineServlet().newExecutePipeline(request, response, this);
-			//String EditParametersForm = new EditParametersServlet().getEditParametersForm(request);
-			//request.getSession().setAttribute("EditParametersForm", EditParametersForm);
-			//response.sendRedirect("Main/Visualize/EditPipelineParameters.jsp");
 		}
 		else if( requestType.equalsIgnoreCase("check-query-isvalid") )
 		{

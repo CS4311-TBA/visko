@@ -271,41 +271,34 @@
                   if( email == emailCheck && pass == passCheck )
                   {
                     prevent = false;
-                    //alert("Pass");
                   }
                   else
                   {
                     prevent = true;
-                    //alert("email or pass not equal");
                     $('#warning').html("<p style='color:red'>Make sure email and passwords match.</p>" );
                   }
                 }
                 else
                 {
                   prevent = true;
-                  //alert("pass or passCheck length");
                   $('#warning').html("<p style='color:red'>Password must be at least 6 characters.</p>" );
                 }
               }
               else
               {
                 prevent = true;
-                //alert("emailCheck: " + emailCheck);
                 $('#warning').html("<p style='color:red'>Please enter valid email.</p>" );
               }
             }
             else
             {
               prevent = true;
-              //alert("email: " + email);
               $('#warning').html("<p style='color:red'>Please enter valid email.</p>" );
             }
 
             if( prevent )
             {
               e.preventDefault();
-              //alert("Prevented Submit");
-              //$('#warning').html("<p style='color:red'>Please enter valid email and password</p>" );
             }
           }
         );

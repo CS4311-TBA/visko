@@ -192,7 +192,15 @@ public class Access {
 	        
 	}
     
-    
+	 /**
+	     * retrieve result set corresponding to build select statement
+	     * receives parameters:
+	     * table: String name of the database table to select from
+	     * column: String name of the column to select from
+	     * constraint: String containing value for select constraints
+	     * creates select statement: "SELECT "column" FROM "table" WHERE "constraint";"
+	     * returns: String of result from select statement, or null if unsuccessful
+	     */
     public ResultSet selectResultSet( String table, String column, String constraint){
     	
     	ResultSet result = null;
@@ -204,8 +212,6 @@ public class Access {
 			con = DriverManager.getConnection("jdbc:mysql://earth.cs.utep.edu/cs4311team1sp14","cs4311team1sp14","teamTBA"); 
 			
 			String queryString = "SELECT "+column+" FROM "+table+" WHERE "+constraint+";";
-			
-			System.out.println(":"+queryString+":");//testing
 			
 			Statement stmt = con.createStatement();
 			result = stmt.executeQuery(queryString);
@@ -262,8 +268,6 @@ public class Access {
 	        }
 	        queryString += ");";
 	        
-	        //System.out.println(":"+queryString+":");//testing
-	        
 	        Statement call = con.createStatement();
 	        call.execute(queryString);
 	        success = true;
@@ -299,11 +303,6 @@ public class Access {
     	return values;
     }
     
-    /*
-     * UPDATE table_name
-SET column1=value1,column2=value2,...
-WHERE some_column=some_value;
-     */
 	 /**
      * retrieve string column from the database
      * receives parameters:

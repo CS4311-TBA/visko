@@ -60,25 +60,6 @@
      		
           } 
           
-			/**
-			ResultSet nCount = null;
-			
-			countResult = aDB.selectResultSet("Error", "distinct Edetail", "Edetail IS NOT NULL;");
-
-			List<Integer> errors = new ArrayList<Integer>();
-			while( countResult.next()){
-				nCount = aDB.selectResultSet("Error", "count(*)", "Edetail = '"+countResult.getString("Edetail")+"';");
-				errors.add(nCount.getInt(1));
-
-			}
-
-			for(int i = 0; i < errors.size(); i++){
-				System.out.println(errors.get(i));	
-			}
-			out.write("<input type = \"hidden\" name =\"Qid\" id = \"count\" value = '"+newCount+"'>");
-			**/
-          
-          
           %>
           
           

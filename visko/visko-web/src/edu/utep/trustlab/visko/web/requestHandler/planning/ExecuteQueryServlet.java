@@ -79,6 +79,7 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 		return html;
 	}
 
+	// Method Added to original VisKo API - returns the Tree Map created for a typed query
 	public TreeMap<String, ArrayList<String>> getTreeMap( HttpServletRequest request, HttpServletResponse response) {
 		String stringQuery = request.getParameter("query");
 		String reuse = request.getParameter("reuse");
@@ -95,7 +96,7 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			engine = new QueryEngine(query);
 		}
 		
-		//
+		// build insert string to use when logging the typed query to the Database
 		User user = (User) request.getSession().getAttribute("user");
 		String insertValues = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
 		insertValues += "," + user.getEmail();
@@ -105,18 +106,13 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 		insertValues += "," + query.getTargetFormatURI();
 		insertValues += "," + query.getTargetTypeURI();
 		insertValues += ",NOW()";
-		insertValues += "," +stringQuery;	
-		//
+		insertValues += "," +stringQuery;
 
 		if (query.isValidQuery()) {
 			// if valid query add the query engine to the session
 			ViskoWebSession session = new ViskoWebSession();
 			session.setQueryEngine(engine);
 			request.getSession().setAttribute(ViskoWebSession.SESSION_ID, session);
-
-			//HashMap<String, ArrayList<String>> resultMap = new HashMap<String, ArrayList<String>>();
-			//resultMap = ResultsTableHTML.getHashMap(engine);
-			//resultMap = ResultsTableHTML.getHTML(engine, true);
 			
 			//log valid typed Query to Database	
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
@@ -124,7 +120,6 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			
 			String Qid = access.selectDB("Query", "Qid", "Usid = '"+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
 					"' AND Qstring = \""+stringQuery+"\";");
-			//
 		
 			return ResultsTableHTML.getTreeMap(engine, Qid);
 		}
@@ -139,12 +134,12 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			access.insertDB("Error", "Edetail, Etime", "Query is Invalid,NOW()");
 			String Eid = access.selectMaxID("Error", "Eid");
 			access.insertDB("QueryError", "Qid, Eid, QEtime", Qid+","+Eid+",NOW()");
-			//
 			
 			return null;
 		}
 	}
 	
+	// Method Added to original VisKo API - returns the Tree Map created for a built query
 	public TreeMap<String, ArrayList<String>> getTreeMapBuild( HttpServletRequest request, HttpServletResponse response) {		
 		String stringQuery = writeQuery(request);
 		String reuse = request.getParameter("reuse");
@@ -161,7 +156,7 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			engine = new QueryEngine(query);
 		}
 		
-		//
+		// build insert string to use when logging the built query to the Database
 		User user = (User) request.getSession().getAttribute("user");
 		String insertValues = access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'");
 		insertValues += "," + user.getEmail();
@@ -171,8 +166,7 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 		insertValues += "," + query.getTargetFormatURI();
 		insertValues += "," + query.getTargetTypeURI();
 		insertValues += ",NOW()";
-		insertValues += "," +stringQuery;	
-		//
+		insertValues += "," +stringQuery;
 
 		if (query.isValidQuery()) {
 			// if valid query add the query engine to the session
@@ -180,19 +174,18 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			session.setQueryEngine(engine);
 			request.getSession().setAttribute(ViskoWebSession.SESSION_ID, session);
 		
-			//log valid built Query to Database	
+			// log valid built Query to Database	
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
 					+"QsourceFormat, QtargetType, Qtime, Qstring", insertValues);
 			
 			String Qid = access.selectDB("Query", "Qid", "Usid = '"+access.selectDB("Users", "Usid", " Uemail = '"+user.getEmail()+"'") +
 					"' AND Qstring = \""+stringQuery+"\";");
-			//
 			
 			return ResultsTableHTML.getTreeMap(engine, Qid);
 		}
 		else {
 		
-			//log invalid built Query to Database	
+			// log invalid built Query to Database	
 			insertValues += ",0";
 			access.insertDB("Query", "Usid, Qusername, Qtype, QinputUrl, QviewerSet, "
 					+"QsourceFormat, QtargetType, Qtime, Qstring, Qstatus", insertValues);
@@ -201,12 +194,12 @@ public class ExecuteQueryServlet extends RequestHandlerHTML {
 			access.insertDB("Error", "Edetail, Etime", "Query is Invalid,NOW()");
 			String Eid = access.selectMaxID("Error", "Eid");
 			access.insertDB("QueryError", "Qid, Eid, QEtime", Qid+","+Eid+",NOW()");
-			//
 			
 			return null;
 		}
 	}
 	
+	// Method Added to original VisKo API - used by getTreeMapBuild() to build a query string from the user inputs
 	public String writeQuery(HttpServletRequest request){	
 		String defaultValue = SelectionOptionsHTML.DEFAULT;
 		

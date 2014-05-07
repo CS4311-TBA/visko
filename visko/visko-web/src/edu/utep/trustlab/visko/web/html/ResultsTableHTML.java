@@ -29,9 +29,8 @@ import edu.utep.trustlab.visko.web.Access;
 
 public class ResultsTableHTML {
 	
-	/*
-	 * returns TreeMap of pipelines, or empty TreeMap
-	 */
+	
+	// Method Added to original VisKo API - returns TreeMap of pipelines, or empty TreeMap
 	public static TreeMap<String, ArrayList<String>> getTreeMap(QueryEngine engine, String Qid) {
 		
 		PipelineSet pipes = engine.getPipelines();
@@ -39,8 +38,6 @@ public class ResultsTableHTML {
 		
 		if( pipes.size() > 0 )
 		{
-			//HashMap<String, ArrayList<String>> result = new HashMap<String, ArrayList<String>>();
-			//result = getVisualizationAndPipelineHashMap(pipes, engine.getQuery().hasValidDataPointer() );
 			try{
 				return getVisualizationAndPipelineHashMap(pipes, engine.getQuery().hasValidDataPointer(), Qid);
 			}
@@ -51,7 +48,6 @@ public class ResultsTableHTML {
 				access.insertDB("Error", "Edetail, Etime", e.getMessage()+",NOW()");
 				String Eid = access.selectMaxID("Error", "Eid");
 				access.insertDB("QueryError", "Qid, Eid, QEtime", Qid+","+Eid+",NOW()");
-				//
 				
 				//return empty tree
 				return new TreeMap<String, ArrayList<String>>();
@@ -64,16 +60,14 @@ public class ResultsTableHTML {
 			access.insertDB("Error", "Edetail, Etime", "Query Produced No Pipelines,NOW()");
 			String Eid = access.selectMaxID("Error", "Eid");
 			access.insertDB("QueryError", "Qid, Eid, QEtime", Qid+","+Eid+",NOW()");
-			//
 			
 			//return empty tree
 			return new TreeMap<String, ArrayList<String>>();
 		}
 	}
 	
-	/*
-	 * Returns TreeMap
-	 */
+
+	// Method Added to original VisKo API -Returns TreeMap
 	private static TreeMap<String, ArrayList<String>> getVisualizationAndPipelineHashMap( PipelineSet pipes, boolean hasValidDataPointer, String Qid) throws Exception{
 		
 		Access access = new Access();
@@ -87,13 +81,6 @@ public class ResultsTableHTML {
 			String ptoolKit = getCustomToolkitOfAbstractionLink(pipes.get(i));
 			String format = getCustomOutputFormatLink(pipes.get(i));
 			String description = getCustomShowPipelineLink(i);
-			//Run + getExecutePipelineLink(i, pipes.getArtifactURL(), pipes.get(i).requiresInputURL(), pipes.get(i).hasAllInputParameters(), validDatasetReference, false) + "</td>";
-			//Run with Provenance + getExecutePipelineLink(i, pipes.getArtifactURL(), pipes.get(i).requiresInputURL(), pipes.get(i).hasAllInputParameters(), validDatasetReference, true) + "</td>";
-			//Configure + getEditParametersLink(i);
-			//Abstraction + getAbstractionLink(pipes.get(i)) + "</td>";
-			//Primary Toolkit + getToolkitOfAbstractionLink(pipes.get(i)) + "</td>";
-			//Format + getOutputFormatLink(pipes.get(i)) + "</td>";
-			//Description + getShowPipelineLink(i) + "</td>";
 			
 			String key = ptoolKit;
 			String value = runLink + "|" + runProvLink + "|" + configure + "|" + abstraction + "|" + format + "|" + description;
@@ -111,7 +98,6 @@ public class ResultsTableHTML {
 			insertValues += "," +description;
 			insertValues += ",NOW()";
 			access.insertDB("Pipeline", "Qid, Pindex, PrunLink, PrunProvLink, Pconfigure, Pabstraction, Pformat, Pdescription, Ptime", insertValues);
-			//
 		}
 		//if query produces pipelines, flag it as valid
 		access.updateDB("Query", "Qstatus", "1", "Qid", Qid);
@@ -210,10 +196,7 @@ public class ResultsTableHTML {
 		return html;
 	}
 
-	
-	/*
-	 * Adds to the arraylist of key is found in treeMap
-	 */
+	// Method Added to original VisKo API -Adds to the array list of key is found in treeMap
 	private static void addValues(String key, String value, TreeMap<String, ArrayList<String>> treeMap) {
 		ArrayList<String> tempList = null;
 		if (treeMap.containsKey(key)) 

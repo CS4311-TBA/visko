@@ -86,6 +86,7 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 		}		
 	}
 	
+	// New method used instead of the original method doGet()
 	public void newExecutePipeline (HttpServletRequest request, HttpServletResponse response, HttpServlet servlet) throws IOException, ServletException {
 		String provenance = request.getParameter("provenance");
 		String stringIndex = request.getParameter("index");
@@ -118,13 +119,10 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 			job.setProvenanceLogging(captureProvenance);
 			
 			// log visualization to the Database
-			
-			
 			String insertValues = Qid;
 			insertValues += "," +Pid;
 			insertValues += ",NOW()";
 			access.insertDB("Visualization", "Qid, Pid, Vtime", insertValues);
-			//
 			
 			PipelineExecutor runningPipeline = new PipelineExecutor();
 			runningPipeline.setJob(job);
@@ -156,7 +154,6 @@ public class ExecutePipelineServlet extends RequestHandlerRedirect {
 	 				String Fid = access.selectMaxID("Failure", "Fid");
 	 				access.insertDB("PipelineFailure", "Pid, Fid, PFtime", Pid+","+Fid+",NOW()");
 	 			}
-	 			//
 	        	
 	        	session.removePipelineExecutor();
 	        }
